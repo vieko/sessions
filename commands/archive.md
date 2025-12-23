@@ -1,6 +1,7 @@
 ---
 description: Archive completed session work
 allowed-tools: Bash(git:*), Read, Write, Glob
+model: haiku
 ---
 
 # Archive Session
@@ -18,32 +19,77 @@ Read `<git-root>/.sessions/index.md` and identify completed work:
 
 ## Step 3: Create Archive Entry
 
-Move completed session content to `<git-root>/.sessions/archive/`:
+Move completed session content to `<git-root>/.sessions/archive/`.
 
-Create `YYYY-MM-DD-<topic>.md` with:
-- The completed session entries
-- Summary of what was accomplished
-- Key decisions made
-- Links to PRs/commits if available
+**Naming convention**: `YYYY-MM-DD-<issue-id>-<topic>.md`
+
+Examples:
+- `2025-12-22-GTMENG-387-inbound-improvements.md` (with issue ID)
+- `2025-12-22-fix-login-redirect.md` (without issue ID)
+
+Use this template:
+```markdown
+# [TOPIC]
+
+**Date**: [DATE]
+**Issue**: [ISSUE-ID or N/A]
+**PR**: [PR link if available]
+**Status**: Completed
+
+---
+
+## Summary
+
+[Brief description of what was accomplished]
+
+## Accomplished
+
+- [List of completed items]
+
+## Decisions Made
+
+- [Key decisions and rationale]
+
+## Impact
+
+- [Before/after metrics if applicable]
+- Files changed: [count]
+
+## Related
+
+- [Links to related docs, plans, or code]
+```
 
 ## Step 4: Clean Up Index
 
 Update `<git-root>/.sessions/index.md`:
-- Remove archived session entries
+- Remove archived session entries from Recent Sessions
 - Keep Current State focused on active work
 - Update Next Session Priorities
-- Add link to archive file in Notes section
+- Add link to archive file in Archived Sessions section:
+  ```markdown
+  ## Archived Sessions
 
-## Step 5: Commit Archive
+  - [YYYY-MM-DD - Topic](archive/YYYY-MM-DD-issue-topic.md)
+  ```
+
+## Step 5: Clean Up Plans (if applicable)
+
+Check if any plans in `<git-root>/.sessions/plans/` are now complete:
+- If the plan was fully implemented, delete the plan file (archive has the record)
+- If the plan has reusable reference material, move that content to `docs/` first
+
+## Step 6: Commit Archive
 
 ```bash
 git add .sessions/
 git commit -m "docs: archive completed session work"
 ```
 
-## Step 6: Confirm
+## Step 7: Confirm
 
 Report:
 - What was archived
+- Any plans cleaned up
 - Current state of index.md
 - Ready for next session

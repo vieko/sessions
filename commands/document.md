@@ -25,20 +25,71 @@ Launch a thorough exploration to understand the topic:
 
 ## Step 4: Create Documentation
 
-Create documentation in `<git-root>/.sessions/docs/<topic>.md`
+**Naming convention**: `<topic>.md` (kebab-case)
+
+Examples:
+- `inbound-agent-architecture.md`
+- `sampling-strategies.md`
+- `authentication-flow.md`
+
+Write the documentation to `<git-root>/.sessions/docs/<topic>.md`
 
 Structure the documentation with:
 - **Overview**: What this is and why it exists
-- **Architecture**: How it's structured
+- **Architecture**: How it's structured (use mermaid diagrams for complex flows)
 - **Key Files**: Important files and their roles
 - **How It Works**: Flow and behavior
 - **Usage Examples**: How to use/modify it
 - **Gotchas**: Things to watch out for
 - **Related**: Links to related docs or code
 
+Use this template:
+```markdown
+# [TOPIC]
+
+## Overview
+
+[What this is and why it exists]
+
+## Architecture
+
+[How it's structured]
+
+```mermaid
+flowchart TD
+    A[Component A] --> B[Component B]
+    B --> C[Component C]
+```
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `path/to/file.ts` | [Description] |
+| `path/to/other.ts` | [Description] |
+
+## How It Works
+
+[Step-by-step flow and behavior]
+
+## Usage Examples
+
+[Code examples, CLI commands, etc.]
+
+## Gotchas
+
+- [Thing to watch out for]
+- [Common mistake]
+
+## Related
+
+- [Link to related doc](other-doc.md)
+- [Code reference]: `path/to/file.ts`
+```
+
 ## Step 5: Link to Session Context
 
-Add a reference to the doc in `<git-root>/.sessions/index.md`.
+Add a reference to the doc in `<git-root>/.sessions/index.md` under Key Resources or Notes.
 
 ## Step 6: Confirm
 

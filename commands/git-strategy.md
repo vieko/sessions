@@ -1,6 +1,7 @@
 ---
 description: Change how .sessions/ is handled in git
 allowed-tools: Bash(git:*), Read, Write
+model: haiku
 ---
 
 # Change Git Strategy
@@ -50,8 +51,6 @@ Write the appropriate `.gitignore` to `<git-root>/.sessions/.gitignore`:
 !docs/**
 !plans/
 !plans/**
-!README.md
-!WORKSPACE.md
 ```
 
 **Commit all**:

@@ -1,6 +1,7 @@
 ---
 description: End session - update context and commit changes
 allowed-tools: Bash(git:*), Read, Write
+model: haiku
 ---
 
 # End Session

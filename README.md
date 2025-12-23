@@ -1,5 +1,7 @@
 # Sessions
 
+> **v0.4.0** - [Changelog](CHANGELOG.md)
+
 A Claude Code plugin for maintaining context across AI coding sessions.
 
 ## What is this?
@@ -14,16 +16,16 @@ This plugin provides commands and skills that make the pattern seamless.
 
 ```bash
 # Add the marketplace
-/plugin marketplace add vieko/sessions
+claude plugin marketplace add vieko/sessions
 
 # Install the plugin
-/plugin install sessions
+claude plugin install sessions
 ```
 
 Or install directly:
 
 ```bash
-/plugin install sessions@vieko/sessions
+claude plugin install sessions@vieko/sessions
 ```
 
 ## Commands
@@ -36,8 +38,34 @@ All commands are namespaced under `sessions:`:
 | `/sessions:end` | End session - update context and commit changes |
 | `/sessions:plan` | Create an implementation plan |
 | `/sessions:document <topic>` | Document a topic in the codebase |
-| `/sessions:archive` | Archive completed work |
+| `/sessions:review` | Review work for blindspots, gaps, and improvements |
+| `/sessions:archive` | Archive completed session work |
+| `/sessions:configure` | Change plugin settings (models, per-project options) |
 | `/sessions:git-strategy` | Change how `.sessions/` is handled in git |
+
+## Configuration
+
+### Global Settings (All Projects)
+
+On first use, you'll be asked to configure model preferences:
+
+| Setting | Options | Default |
+|---------|---------|---------|
+| Model for `/plan` | inherit, haiku, sonnet, opus | inherit |
+| Model for `/document` | inherit, haiku, sonnet, opus | inherit |
+| Model for `/review` | inherit, haiku, sonnet, opus | inherit |
+
+**inherit** uses your current conversation model. Change anytime with `/sessions:configure`.
+
+### Per-Project Settings
+
+Each project can have its own settings, asked on first `/sessions:start`:
+
+| Setting | Options | Default |
+|---------|---------|---------|
+| Git strategy | ignore-all, hybrid, commit-all | ignore-all |
+| Docs location | .sessions/docs/, docs/ (root) | .sessions/docs/ |
+| Scripts tracking | enabled, disabled | disabled |
 
 ## Skills (Passive Context)
 
@@ -55,15 +83,6 @@ Claude suggests archiving when:
 - After successful `gh pr merge`
 - You mention completion: "done with X", "shipped"
 
-## First Run
-
-On first `/sessions:start`, the plugin will:
-1. Detect that `.sessions/` doesn't exist
-2. Ask your preferred git strategy (ignore/hybrid/commit)
-3. Scaffold the directory structure
-4. Detect monorepo if applicable
-5. Start your first session
-
 ## Directory Structure
 
 The plugin creates and manages:
@@ -71,13 +90,11 @@ The plugin creates and manages:
 ```
 .sessions/
 ├── index.md          # Living context document
+├── config.json       # Per-project settings
 ├── archive/          # Completed work
 ├── plans/            # Implementation plans
-├── prep/             # Pre-session context
-├── docs/             # Topic documentation
-├── packages/         # Monorepo notes (if applicable)
-├── .gitignore        # Based on chosen strategy
-└── .version          # Plugin version tracking
+├── docs/             # Topic documentation (or at root level)
+└── .gitignore        # Based on chosen strategy
 ```
 
 ## Git Strategies
@@ -92,22 +109,45 @@ Choose how `.sessions/` is handled:
 
 Change anytime with `/sessions:git-strategy`.
 
+## Scripts Tracking (Optional)
+
+When enabled, the plugin helps manage agent-generated scripts:
+
+**Frontmatter standard:**
+```typescript
+/**
+ * @session-script
+ * @purpose Brief description of what this script does
+ * @issue ISSUE-123 (optional)
+ * @lifecycle permanent | temporary | deprecated
+ * @created 2025-12-22
+ * @expires 2025-01-22 (for temporary scripts)
+ */
+```
+
+`/sessions:review` will scan scripts and identify:
+- Untracked scripts (need frontmatter)
+- Expired scripts (past expiration date)
+- Deprecated scripts (marked for removal)
+- Orphaned scripts (reference closed issues)
+
+## Naming Conventions
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| Archive | `YYYY-MM-DD-<issue>-<topic>.md` | `2025-12-22-GTMENG-387-inbound-improvements.md` |
+| Plans | `<issue>-<topic>.md` | `GTMENG-410-webhook-refactor.md` |
+| Docs | `<topic>.md` | `inbound-agent-architecture.md` |
+
+Issue IDs are optional but encouraged for traceability.
+
 ## Requirements
 
 - [Claude Code CLI](https://claude.ai/code)
 - Git repository (for context location)
 - `gh` CLI (optional, for GitHub integration)
 
-## Why This Works
-
-AI coding agents are stateless - they don't remember previous sessions. The Sessions Directory Pattern solves this by:
-
-1. **Externalizing memory** - Context lives in files, not the agent's "memory"
-2. **Progressive documentation** - You document as you build
-3. **Continuity across sessions** - Each session starts with full context
-4. **Proof of decisions** - Everything is written down
-
-## Migration from npx
+## Migration from create-sessions-dir
 
 If you used `npx create-sessions-dir` before:
 
@@ -115,6 +155,11 @@ If you used `npx create-sessions-dir` before:
 2. Your existing `.sessions/` directory works as-is
 3. Old `.claude/commands/` can be removed (plugin provides commands)
 4. Old `.claude/skills/` can be removed (plugin provides skills)
+5. Run `/sessions:configure` to set up model preferences
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## License
 

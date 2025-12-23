@@ -13,6 +13,8 @@ Run `git rev-parse --show-toplevel` to locate the repository root.
 
 Ask the user what they want to plan if not already clear from $ARGUMENTS.
 
+If an issue ID is provided (JIRA, Linear, GitHub), note it for the filename.
+
 ## Step 3: Research
 
 Launch a thorough exploration:
@@ -35,13 +37,20 @@ Create a structured implementation plan:
 
 ## Step 5: Save the Plan
 
-Write the plan to `<git-root>/.sessions/plans/YYYY-MM-DD-<topic>.md`
+**Naming convention**: `<issue-id>-<topic>.md`
+
+Examples:
+- `GTMENG-410-webhook-refactor.md` (with issue ID)
+- `dark-mode-implementation.md` (without issue ID)
+
+Write the plan to `<git-root>/.sessions/plans/<filename>.md`
 
 Use this template:
 ```markdown
 # Implementation Plan: [TOPIC]
 
 **Created**: [DATE]
+**Issue**: [ISSUE-ID or N/A]
 **Status**: Draft
 
 ## Overview
@@ -89,3 +98,16 @@ Present the plan summary and ask if the user wants to:
 - Proceed with implementation
 - Refine the plan
 - Save for later
+
+## Plan Lifecycle
+
+Plans are **temporary artifacts** - they exist to guide implementation:
+
+1. **Draft** → Created, ready for review
+2. **In Progress** → Being implemented
+3. **Completed** → Implementation done
+
+**When a plan is fully implemented**:
+- If it contains reusable reference material (architecture decisions, patterns), move that content to `docs/`
+- Delete the plan file - the archive will have the record of what was accomplished
+- Don't let plans accumulate; they should flow through to completion or be abandoned
