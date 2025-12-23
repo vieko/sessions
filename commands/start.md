@@ -1,6 +1,6 @@
 ---
 description: Start a new session - reads context and scaffolds .sessions/ if needed
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(mkdir:*), Read, Write, Glob
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(mkdir:*), Read, Write, Glob, AskUserQuestion
 model: haiku
 ---
 
@@ -10,27 +10,7 @@ model: haiku
 
 Run `git rev-parse --show-toplevel` to locate the repository root. All session files live at `<git-root>/.sessions/`.
 
-## Step 2: Check Global Configuration
-
-Check if the plugin has been configured by looking for a marker.
-
-**If first time using plugin globally**, ask model preferences:
-
-1. "What model should be used for `/sessions:plan`?"
-   - **inherit** (recommended) - Use conversation model
-   - **opus** - Deep architectural reasoning
-   - **sonnet** - Balanced speed/quality
-   - **haiku** - Fast, lightweight
-
-2. "What model should be used for `/sessions:document`?"
-   - Same options as above
-
-3. "What model should be used for `/sessions:review`?"
-   - Same options as above
-
-Run `<plugin-root>/scripts/configure.sh <plan-model> <document-model> <review-model>` to update command frontmatter.
-
-## Step 3: Check for Sessions Directory
+## Step 2: Check for Sessions Directory
 
 Check if `<git-root>/.sessions/index.md` exists.
 
@@ -38,41 +18,55 @@ Check if `<git-root>/.sessions/index.md` exists.
 
 1. Tell the user: "No sessions directory found. Let me set that up for you."
 
-2. Ask per-project settings:
+2. Use the AskUserQuestion tool to ask ALL configuration questions at once:
 
-   **Git strategy:**
-   - **Ignore all** (recommended) - Keep sessions completely local, private by default
-   - **Hybrid** - Commit docs/plans, keep working notes private
-   - **Commit all** - Share everything with team
+   ```
+   Question 1: "Which model for /sessions:plan?"
+   Header: "Plan"
+   Options:
+   - inherit (Recommended) - Use conversation model
+   - opus - Deep architectural reasoning
+   - sonnet - Balanced speed/quality
+   - haiku - Fast, lightweight
 
-   **Docs location:**
-   - **.sessions/docs/** (recommended) - Keep docs with session context
-   - **docs/** (root level) - Share docs with team, separate from sessions
+   Question 2: "Which model for /sessions:document?"
+   Header: "Document"
+   Options: (same as above)
 
-   **Scripts tracking:**
-   - **Disabled** (recommended) - No script lifecycle tracking
-   - **Enabled** - Track agent-generated scripts with frontmatter
+   Question 3: "Which model for /sessions:review?"
+   Header: "Review"
+   Options: (same as above)
+
+   Question 4: "Which git strategy for .sessions/?"
+   Header: "Git"
+   Options:
+   - Ignore all (Recommended) - Keep sessions completely local, private
+   - Hybrid - Commit docs/plans, keep working notes private
+   - Commit all - Share everything with team
+   ```
 
 3. Create the directory structure:
    ```
    .sessions/
    ├── index.md
-   ├── config.json      # Per-project settings
+   ├── config.json
    ├── archive/
    ├── plans/
-   ├── docs/            # If docs location is .sessions/docs/
+   ├── docs/
    └── .gitignore
    ```
 
-   If docs location is root level, create `<git-root>/docs/` instead.
-
 4. Detect project name from: package.json name → git remote → directory name
 
-5. Create `config.json` with project settings:
+5. Create `config.json` with user's answers:
    ```json
    {
-     "docsLocation": ".sessions/docs",
-     "scriptsTracking": false
+     "models": {
+       "plan": "<user-answer>",
+       "document": "<user-answer>",
+       "review": "<user-answer>"
+     },
+     "gitStrategy": "<user-answer>"
    }
    ```
 
@@ -159,9 +153,9 @@ Check if `<git-root>/.sessions/index.md` exists.
    scratch/
    ```
 
-**If .sessions/ EXISTS**, proceed to Step 4.
+**If .sessions/ EXISTS**, proceed to Step 3.
 
-## Step 4: Check/Update CLAUDE.md
+## Step 3: Check/Update CLAUDE.md
 
 Check if `<git-root>/CLAUDE.md` exists.
 
@@ -181,7 +175,7 @@ Read `.sessions/index.md` for current project state, recent work, and priorities
 - `/sessions:document <topic>` - Document a topic
 - `/sessions:review` - Review work for blindspots and improvements
 - `/sessions:archive` - Archive completed work
-- `/sessions:configure` - Change plugin settings
+- `/sessions:configure` - Change project settings
 ```
 
 **If CLAUDE.md EXISTS**, check if it references `.sessions/index.md`. If not, append:
@@ -192,7 +186,7 @@ Read `.sessions/index.md` for current project state, recent work, and priorities
 Read `.sessions/index.md` for current project state, recent work, and priorities.
 ```
 
-## Step 5: Read Session Context
+## Step 4: Read Session Context
 
 Read `<git-root>/.sessions/index.md` and report when ready.
 
@@ -203,7 +197,7 @@ Summarize:
 
 Then ask: "What do you want to work on this session?"
 
-## Step 6: Fetch External Context (Optional)
+## Step 5: Fetch External Context (Optional)
 
 **Only fetch if user provides a new URL or issue ID:**
 

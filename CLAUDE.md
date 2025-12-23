@@ -13,13 +13,11 @@ sessions/
 │   ├── document.md       # Document a topic (inherit)
 │   ├── review.md         # Strategic work review (inherit)
 │   ├── archive.md        # Archive completed work (haiku)
-│   ├── configure.md      # Change plugin settings (haiku)
+│   ├── configure.md      # Change project settings (haiku)
 │   └── git-strategy.md   # Change git handling (haiku)
 ├── skills/               # Passive context skills
 │   ├── session-context/  # Auto-reads .sessions/index.md
 │   └── archive-session/  # Suggests archiving on completion
-├── scripts/
-│   └── configure.sh      # Updates command frontmatter
 ├── CLAUDE.md             # This file
 └── README.md             # User-facing documentation
 ```
@@ -31,7 +29,7 @@ The plugin provides commands that manage a `.sessions/` directory in user projec
 ```
 .sessions/
 ├── index.md      # Living context document (read at start, updated at end)
-├── config.json   # Per-project settings (docs location, scripts tracking)
+├── config.json   # Project settings (models, git strategy)
 ├── archive/      # Completed work (YYYY-MM-DD-<issue>-<topic>.md)
 ├── plans/        # Implementation plans (<issue>-<topic>.md)
 ├── docs/         # Reference documentation (<topic>.md)
@@ -40,14 +38,23 @@ The plugin provides commands that manage a `.sessions/` directory in user projec
 
 ## Configuration
 
-**Global settings** (model preferences):
-- Stored via frontmatter in command files
-- Updated by `scripts/configure.sh`
-- Apply to all projects
+All settings are stored in `.sessions/config.json` per-project:
 
-**Per-project settings** (git strategy, docs location, scripts tracking):
-- Stored in `.sessions/config.json`
-- Set on first `/sessions:start` in each project
+```json
+{
+  "models": {
+    "plan": "inherit",
+    "document": "inherit",
+    "review": "opus"
+  },
+  "gitStrategy": "ignore-all"
+}
+```
+
+- **models**: Which model to use for thinking commands (inherit, haiku, sonnet, opus)
+- **gitStrategy**: How .sessions/ is handled in git (ignore-all, hybrid, commit-all)
+
+Commands read config.json at runtime and respect the model preference.
 
 ## Development Notes
 
@@ -55,7 +62,7 @@ The plugin provides commands that manage a `.sessions/` directory in user projec
 - All commands start with `git rev-parse --show-toplevel` to find project root
 - Skills have trigger patterns in SKILL.md that Claude matches automatically
 - Mechanical commands use `model: haiku` for speed
-- Thinking commands inherit model for flexibility
+- Thinking commands read config.json for model preference
 - Skills cannot specify models (always inherit)
 - Version: 0.4.0 (continuing from create-sessions-dir 0.3.x)
 
@@ -63,8 +70,8 @@ The plugin provides commands that manage a `.sessions/` directory in user projec
 
 1. Make edits to command/skill files
 2. Test in a separate project with the plugin installed
-3. Run `/sessions:start` to verify scaffolding
-4. Run `/sessions:configure` to verify global settings
+3. Run `/sessions:start` to verify scaffolding and config questions
+4. Run `/sessions:configure` to verify settings update
 5. Run other commands to verify behavior
 
 ## Related

@@ -21,8 +21,16 @@ Based on $ARGUMENTS:
 
 ## Step 3: Check Project Config
 
-Read `<git-root>/.sessions/config.json` if it exists to check:
-- `scriptsTracking`: If true, include scripts in review
+Read `<git-root>/.sessions/config.json` if it exists.
+
+**Model preference**: If `models.review` is set to something other than "inherit":
+- If "opus": Be thorough, find subtle issues, architectural concerns
+- If "sonnet": Balance depth with efficiency
+- If "haiku": Focus on obvious issues, be quick
+
+If "inherit" or not set, proceed with current conversation model.
+
+**Scripts tracking**: If `scriptsTracking` is true, include scripts in review (Step 5).
 
 ## Step 4: Strategic Review
 

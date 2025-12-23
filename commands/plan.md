@@ -9,13 +9,24 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*)
 
 Run `git rev-parse --show-toplevel` to locate the repository root.
 
-## Step 2: Understand the Task
+## Step 2: Check Model Preference
+
+Read `<git-root>/.sessions/config.json` if it exists.
+
+If `models.plan` is set to something other than "inherit", use that model for this task:
+- If "opus": Use deep architectural reasoning, be thorough
+- If "sonnet": Balance depth with efficiency
+- If "haiku": Be concise and fast
+
+If "inherit" or not set, proceed with current conversation model.
+
+## Step 3: Understand the Task
 
 Ask the user what they want to plan if not already clear from $ARGUMENTS.
 
 If an issue ID is provided (JIRA, Linear, GitHub), note it for the filename.
 
-## Step 3: Research
+## Step 4: Research
 
 Launch a thorough exploration:
 - Search the codebase for relevant patterns
@@ -23,7 +34,7 @@ Launch a thorough exploration:
 - Identify files that will need changes
 - Note any dependencies or constraints
 
-## Step 4: Design the Plan
+## Step 5: Design the Plan
 
 Create a structured implementation plan:
 
@@ -35,7 +46,7 @@ Create a structured implementation plan:
 6. **Testing Strategy**: How to verify it works
 7. **Risks/Considerations**: Edge cases, potential issues
 
-## Step 5: Save the Plan
+## Step 6: Save the Plan
 
 **Naming convention**: `<issue-id>-<topic>.md`
 
@@ -88,11 +99,11 @@ Use this template:
 - [Risk 2]
 ```
 
-## Step 6: Link to Session Context
+## Step 7: Link to Session Context
 
 Add a reference to the plan in `<git-root>/.sessions/index.md` under Current State or relevant section.
 
-## Step 7: Confirm
+## Step 8: Confirm
 
 Present the plan summary and ask if the user wants to:
 - Proceed with implementation

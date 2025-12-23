@@ -34,32 +34,23 @@ All commands are namespaced under `sessions:`:
 | `/sessions:document <topic>` | Document a topic in the codebase |
 | `/sessions:review` | Review work for blindspots, gaps, and improvements |
 | `/sessions:archive` | Archive completed session work |
-| `/sessions:configure` | Change plugin settings (models, per-project options) |
+| `/sessions:configure` | Change project settings |
 | `/sessions:git-strategy` | Change how `.sessions/` is handled in git |
 
 ## Configuration
 
-### Global Settings (All Projects)
-
-On first use, you'll be asked to configure model preferences:
+On first `/sessions:start`, you'll be asked to configure:
 
 | Setting | Options | Default |
 |---------|---------|---------|
 | Model for `/plan` | inherit, haiku, sonnet, opus | inherit |
 | Model for `/document` | inherit, haiku, sonnet, opus | inherit |
 | Model for `/review` | inherit, haiku, sonnet, opus | inherit |
+| Git strategy | ignore-all, hybrid, commit-all | ignore-all |
+
+Settings are stored in `.sessions/config.json` per-project.
 
 **inherit** uses your current conversation model. Change anytime with `/sessions:configure`.
-
-### Per-Project Settings
-
-Each project can have its own settings, asked on first `/sessions:start`:
-
-| Setting | Options | Default |
-|---------|---------|---------|
-| Git strategy | ignore-all, hybrid, commit-all | ignore-all |
-| Docs location | .sessions/docs/, docs/ (root) | .sessions/docs/ |
-| Scripts tracking | enabled, disabled | disabled |
 
 ## Skills (Passive Context)
 
@@ -84,10 +75,10 @@ The plugin creates and manages:
 ```
 .sessions/
 ├── index.md          # Living context document
-├── config.json       # Per-project settings
+├── config.json       # Project settings
 ├── archive/          # Completed work
 ├── plans/            # Implementation plans
-├── docs/             # Topic documentation (or at root level)
+├── docs/             # Topic documentation
 └── .gitignore        # Based on chosen strategy
 ```
 
@@ -102,28 +93,6 @@ Choose how `.sessions/` is handled:
 | **Commit all** | Everything | Full transparency |
 
 Change anytime with `/sessions:git-strategy`.
-
-## Scripts Tracking (Optional)
-
-When enabled, the plugin helps manage agent-generated scripts:
-
-**Frontmatter standard:**
-```typescript
-/**
- * @session-script
- * @purpose Brief description of what this script does
- * @issue ISSUE-123 (optional)
- * @lifecycle permanent | temporary | deprecated
- * @created 2025-12-22
- * @expires 2025-01-22 (for temporary scripts)
- */
-```
-
-`/sessions:review` will scan scripts and identify:
-- Untracked scripts (need frontmatter)
-- Expired scripts (past expiration date)
-- Deprecated scripts (marked for removal)
-- Orphaned scripts (reference closed issues)
 
 ## Naming Conventions
 
@@ -149,7 +118,7 @@ If you used `npx create-sessions-dir` before:
 2. Your existing `.sessions/` directory works as-is
 3. Old `.claude/commands/` can be removed (plugin provides commands)
 4. Old `.claude/skills/` can be removed (plugin provides skills)
-5. Run `/sessions:configure` to set up model preferences
+5. Run `/sessions:configure` to set up your preferences
 
 ## Changelog
 

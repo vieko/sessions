@@ -9,13 +9,24 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*)
 
 Run `git rev-parse --show-toplevel` to locate the repository root.
 
-## Step 2: Understand the Topic
+## Step 2: Check Model Preference
+
+Read `<git-root>/.sessions/config.json` if it exists.
+
+If `models.document` is set to something other than "inherit", use that model for this task:
+- If "opus": Be comprehensive, include deep architectural insights
+- If "sonnet": Balance depth with clarity
+- If "haiku": Be concise, focus on essentials
+
+If "inherit" or not set, proceed with current conversation model.
+
+## Step 3: Understand the Topic
 
 The topic to document is: $ARGUMENTS
 
 If no topic provided, ask the user what they want documented.
 
-## Step 3: Explore the Codebase
+## Step 4: Explore the Codebase
 
 Launch a thorough exploration to understand the topic:
 - Search for relevant files and patterns
@@ -23,7 +34,7 @@ Launch a thorough exploration to understand the topic:
 - Understand the architecture and flow
 - Note important details, gotchas, and decisions
 
-## Step 4: Create Documentation
+## Step 5: Create Documentation
 
 **Naming convention**: `<topic>.md` (kebab-case)
 
@@ -87,11 +98,11 @@ flowchart TD
 - [Code reference]: `path/to/file.ts`
 ```
 
-## Step 5: Link to Session Context
+## Step 6: Link to Session Context
 
 Add a reference to the doc in `<git-root>/.sessions/index.md` under Key Resources or Notes.
 
-## Step 6: Confirm
+## Step 7: Confirm
 
 Summarize what was documented and ask if the user wants:
 - More detail on any section
