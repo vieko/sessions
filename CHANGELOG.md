@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2025-12-28
+
+### Added
+
+- **Linear MCP integration** - Full issue lifecycle support
+  - `/sessions:start` - Fetch Linear issue context with `ENG-123` or Linear URL
+  - `/sessions:review` - Create Linear issues from findings
+  - `/sessions:archive` - Mark Linear issues as Done when work completes
+  - `linearEnabled` config option (opt-in, default false)
+  - Graceful degradation when Linear MCP not configured
+
+- **Hybrid spec approach** - Research-informed interviewing for `/sessions:spec`
+  - Step 4: Research phase (patterns, constraints, conflicts)
+  - Step 5: Interview phase (3 rounds: core → edge cases → scope)
+  - Informed questions based on codebase findings, not generic prompts
+  - New spec sections: Context, Decisions, Edge Cases, Out of Scope
+
+### Changed
+
+- `/sessions:configure` now asks about Linear integration (7 questions in 2 rounds)
+- Added `mcp__linear__*` to allowed-tools in start, review, and archive commands
+- Documented AskUserQuestion 4-question limit in configure and start commands
+
+### Fixed
+
+- Correct Linear MCP tool names: `linear_search_issues`, `linear_create_issue`, `linear_update_issue`
+- Archive command uses correct parameter `id` (not `issueId`)
+
 ## [0.5.0] - 2025-12-28
 
 ### Added

@@ -1,6 +1,6 @@
 # Sessions
 
-> **v0.5.0** - [Changelog](CHANGELOG.md)
+> **v0.6.0** - [Changelog](CHANGELOG.md)
 
 A Claude Code plugin for maintaining context across AI coding sessions.
 
