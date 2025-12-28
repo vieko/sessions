@@ -50,7 +50,8 @@ All settings are stored in `.sessions/config.json` per-project:
   },
   "specsLocation": ".sessions/specs/",
   "docsLocation": ".sessions/docs/",
-  "gitStrategy": "ignore-all"
+  "gitStrategy": "ignore-all",
+  "linearEnabled": false
 }
 ```
 
@@ -58,6 +59,7 @@ All settings are stored in `.sessions/config.json` per-project:
 - **specsLocation**: Where specs are saved (.sessions/specs/ or specs/)
 - **docsLocation**: Where docs are saved (.sessions/docs/ or docs/)
 - **gitStrategy**: How .sessions/ is handled in git (ignore-all, hybrid, commit-all)
+- **linearEnabled**: Enable Linear MCP integration (true/false)
 
 Commands read config.json at runtime and respect the model preference.
 
@@ -69,7 +71,7 @@ Commands read config.json at runtime and respect the model preference.
 - Mechanical commands use `model: haiku` for speed
 - Thinking commands read config.json for model preference
 - Skills cannot specify models (always inherit)
-- Version: 0.5.0 (continuing from create-sessions-dir 0.3.x)
+- Version: 0.6.0 (continuing from create-sessions-dir 0.3.x)
 
 ## Testing Changes
 

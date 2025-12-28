@@ -1,6 +1,6 @@
 ---
 description: Start a new session - reads context and scaffolds .sessions/ if needed
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(mkdir:*), Read, Write, Glob, AskUserQuestion
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(mkdir:*), Read, Write, Glob, AskUserQuestion, mcp__linear__*
 model: haiku
 ---
 
@@ -18,7 +18,9 @@ Check if `<git-root>/.sessions/index.md` exists.
 
 1. Tell the user: "No sessions directory found. Let me set that up for you."
 
-2. Use a single AskUserQuestion call with all questions:
+2. Use AskUserQuestion to ask setup questions. Since AskUserQuestion has a 4-question limit, split into two rounds:
+
+   ### Round 1 (Models + Specs location):
 
    1. "What model for `/sessions:spec`?" (Header: "Spec")
       - inherit (Recommended) - Use conversation model
@@ -35,6 +37,8 @@ Check if `<git-root>/.sessions/index.md` exists.
    4. "Where should specs be saved?" (Header: "Specs location")
       - .sessions/specs/ (Recommended) - Keep with session context
       - specs/ - Project root level
+
+   ### Round 2 (Docs location + Git):
 
    5. "Where should docs be saved?" (Header: "Docs location")
       - .sessions/docs/ (Recommended) - Keep with session context
@@ -217,14 +221,41 @@ Then ask: "What do you want to work on this session?"
 
 **Only fetch if user provides a new URL or issue ID:**
 
-If user provides a GitHub/Linear URL or issue ID:
-- **GitHub**: `gh pr view [URL] --json title,body,state,labels`
-- **GitHub**: `gh issue view [URL] --json title,body,state,labels`
-- **Linear**: If Linear MCP is configured, use available Linear tools to fetch issue
-- Summarize the fetched context
-- Add reference to index.md under Current State
+### Detecting Issue Type
 
-Otherwise (continuing work, ad-hoc task, etc.):
+- **GitHub**: Starts with `#`, contains `github.com`, or doesn't match Linear pattern
+- **Linear**: Matches `[A-Z]+-[0-9]+` pattern (e.g., `ENG-123`, `ABC-456`) or contains `linear.app`
+
+### GitHub Issues/PRs
+
+Use `gh` CLI:
+- `gh pr view [URL] --json title,body,state,labels`
+- `gh issue view [URL] --json title,body,state,labels`
+
+### Linear Issues
+
+First, read `<git-root>/.sessions/config.json` and check `linearEnabled`.
+
+**If `linearEnabled` is false or not set**: Skip Linear, treat as ad-hoc task.
+
+**If `linearEnabled` is true**:
+1. Use Linear MCP `linear_search_issues` tool to find the issue by ID (e.g., `ENG-123`)
+2. Extract: title, description, state, priority, labels, assignee
+3. On success: Summarize the issue context
+4. On failure: Warn user - "Couldn't fetch Linear issue. Linear MCP may not be configured. Continue without issue context?"
+
+Note: Tool names may vary by Linear MCP implementation. Common tools: `linear_search_issues`, `linear_create_issue`, `linear_update_issue`.
+
+### Update Session Context
+
+If issue was fetched successfully:
+- Add reference to `index.md` under Current State
+- Include issue ID, title, and link
+- Note the issue tracker type (GitHub/Linear)
+
+### Fallback
+
+If no URL/issue ID provided (continuing work, ad-hoc task):
 - Proceed with existing session context
 - Session notes are the source of truth for ongoing work
 

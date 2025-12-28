@@ -22,7 +22,9 @@ Read `<git-root>/.sessions/config.json` if it exists to see current settings.
 
 ## Step 4: Ask All Configuration Questions
 
-Use a single AskUserQuestion call with all questions:
+Use AskUserQuestion to ask configuration questions. Since AskUserQuestion has a 4-question limit, split into two rounds:
+
+### Round 1 (Models + Specs location):
 
 1. "What model for `/sessions:spec`?" (Header: "Spec")
    - inherit (Recommended) - Use conversation model
@@ -40,6 +42,8 @@ Use a single AskUserQuestion call with all questions:
    - .sessions/specs/ (Recommended) - Keep with session context
    - specs/ - Project root level
 
+### Round 2 (Docs location + Git + Linear):
+
 5. "Where should docs be saved?" (Header: "Docs location")
    - .sessions/docs/ (Recommended) - Keep with session context
    - docs/ - Project root level
@@ -48,6 +52,10 @@ Use a single AskUserQuestion call with all questions:
    - ignore-all (Recommended) - Keep sessions private/local
    - hybrid - Commit docs/specs, keep notes private
    - commit-all - Share everything with team
+
+7. "Enable Linear MCP integration?" (Header: "Linear")
+   - No (Recommended) - Skip Linear integration
+   - Yes - Fetch/create Linear issues (requires Linear MCP)
 
 ## Step 5: Update Config
 
@@ -61,7 +69,8 @@ Write the updated `<git-root>/.sessions/config.json`:
   },
   "specsLocation": "<user-answer>",
   "docsLocation": "<user-answer>",
-  "gitStrategy": "<user-answer>"
+  "gitStrategy": "<user-answer>",
+  "linearEnabled": <true-or-false>
 }
 ```
 
