@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.1] - 2026-01-03
+
+### Changed
+
+- Updated plugin description to match README: "AI forgets everything between sessions. Bonfire fixes that."
+
 ## [0.8.0] - 2026-01-03
 
 ### Changed

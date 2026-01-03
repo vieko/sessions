@@ -1,7 +1,7 @@
 {
   "name": "bonfire",
-  "version": "0.8.0",
-  "description": "Save your progress at the bonfire - maintain context across AI coding sessions",
+  "version": "0.8.1",
+  "description": "AI forgets everything between sessions. Bonfire fixes that.",
   "author": {
     "name": "Vieko Franetovic",
     "email": "hello@vieko.dev",

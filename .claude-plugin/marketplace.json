@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Claude Code plugins by Vieko",
-    "version": "0.8.0"
+    "version": "0.8.1"
   },
   "plugins": [
     {
       "name": "bonfire",
       "source": "./",
-      "description": "Save your progress at the bonfire - maintain context across AI coding sessions",
-      "version": "0.8.0",
+      "description": "AI forgets everything between sessions. Bonfire fixes that.",
+      "version": "0.8.1",
       "author": {
         "name": "Vieko Franetovic"
       },
