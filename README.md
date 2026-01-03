@@ -23,9 +23,8 @@ You end up re-explaining context, re-making decisions, and watching your AI part
 Sessions maintains a living context document that gets read at session start and updated at session end. Your AI partner picks up exactly where you left off.
 
 ```
-/sessions:start     → reads context, knows what's happening
-[... do work ...]
-/sessions:end       → updates context, commits changes
+/sessions:start  →  work  →  /sessions:end
+  reads context                saves context
 ```
 
 That's it. No complex setup. No external services. Just Markdown files in your repo.
@@ -55,7 +54,7 @@ claude plugin install sessions@vieko
 | Command | What it does |
 |---------|--------------|
 | `/sessions:start` | Read context, scaffold on first run |
-| `/sessions:end` | Update context, manage scripts, commit |
+| `/sessions:end` | Update context, commit changes |
 | `/sessions:spec <topic>` | Create implementation spec (researches codebase, interviews you) |
 | `/sessions:document <topic>` | Document a codebase topic |
 | `/sessions:review` | Find blindspots, gaps, and quick wins |
@@ -123,7 +122,7 @@ If you use Linear for issue tracking:
 
 Sessions will fetch issue context on start, create issues from review findings, and mark issues Done on archive.
 
-## Passive Context
+## Proactive Skills
 
 Claude automatically reads your session context when you ask things like:
 - "What's the project status?"
@@ -141,7 +140,7 @@ Optional: `gh` CLI for GitHub integration, Linear MCP for Linear integration.
 
 ## Learn More
 
-**Blog post**: [Pairing with a Partner Who Forgets Everything](https://vieko.dev/sessions)
+**Blog post**: [Save Your Progress](https://vieko.dev/sessions)
 
 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
