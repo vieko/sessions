@@ -20,5 +20,9 @@
   ],
   "commands": "./commands/",
   "skills": "./skills/",
-  "agents": "./agents/"
+  "agents": [
+    "./agents/codebase-explorer.md",
+    "./agents/spec-writer.md",
+    "./agents/work-reviewer.md"
+  ]
 }
