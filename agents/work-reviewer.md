@@ -1,7 +1,7 @@
 ---
 name: work-reviewer
 description: Strategic code review for blindspots, gaps, and improvements. Returns categorized findings with severity and effort estimates.
-tools: Read, Glob, Grep, Bash
+tools: Read, Glob, Grep, Bash(git:*)
 model: sonnet
 ---
 
