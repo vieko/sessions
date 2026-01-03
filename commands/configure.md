@@ -1,5 +1,5 @@
 ---
-description: Change project settings (models, locations, git strategy)
+description: Change project settings (locations, git strategy, Linear)
 allowed-tools: Bash(git:*), Read, Write, AskUserQuestion
 model: haiku
 ---
@@ -22,38 +22,22 @@ Read `<git-root>/.sessions/config.json` if it exists to see current settings.
 
 ## Step 4: Ask All Configuration Questions
 
-Use AskUserQuestion to ask configuration questions. Since AskUserQuestion has a 4-question limit, split into two rounds:
+Use AskUserQuestion to ask configuration questions (4 questions, one round):
 
-### Round 1 (Models + Specs location):
-
-1. "What model for `/sessions:spec`?" (Header: "Spec")
-   - inherit (Recommended) - Use conversation model
-   - opus - Deep architectural reasoning
-   - sonnet - Balanced speed/quality
-   - haiku - Fast, lightweight
-
-2. "What model for `/sessions:document`?" (Header: "Document")
-   - Same options as above
-
-3. "What model for `/sessions:review`?" (Header: "Review")
-   - Same options as above
-
-4. "Where should specs be saved?" (Header: "Specs location")
+1. "Where should specs be saved?" (Header: "Specs")
    - .sessions/specs/ (Recommended) - Keep with session context
    - specs/ - Project root level
 
-### Round 2 (Docs location + Git + Linear):
-
-5. "Where should docs be saved?" (Header: "Docs location")
+2. "Where should docs be saved?" (Header: "Docs")
    - .sessions/docs/ (Recommended) - Keep with session context
    - docs/ - Project root level
 
-6. "How should `.sessions/` be handled in git?" (Header: "Git")
+3. "How should `.sessions/` be handled in git?" (Header: "Git")
    - ignore-all (Recommended) - Keep sessions private/local
    - hybrid - Commit docs/specs, keep notes private
    - commit-all - Share everything with team
 
-7. "Enable Linear MCP integration?" (Header: "Linear")
+4. "Enable Linear MCP integration?" (Header: "Linear")
    - No (Recommended) - Skip Linear integration
    - Yes - Fetch/create Linear issues (requires Linear MCP)
 
@@ -62,11 +46,6 @@ Use AskUserQuestion to ask configuration questions. Since AskUserQuestion has a 
 Write the updated `<git-root>/.sessions/config.json`:
 ```json
 {
-  "models": {
-    "spec": "<user-answer>",
-    "document": "<user-answer>",
-    "review": "<user-answer>"
-  },
   "specsLocation": "<user-answer>",
   "docsLocation": "<user-answer>",
   "gitStrategy": "<user-answer>",

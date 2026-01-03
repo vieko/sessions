@@ -6,12 +6,16 @@ Claude Code plugin for the Sessions Directory Pattern - maintaining context acro
 
 ```
 sessions/
+├── agents/               # Subagents for context-efficient operations
+│   ├── codebase-explorer.md  # Fast research (haiku, read-only)
+│   ├── spec-writer.md        # Spec synthesis (inherit)
+│   └── work-reviewer.md      # Strategic review (sonnet)
 ├── commands/             # Slash commands (/sessions:*)
 │   ├── start.md          # Begin session, scaffold if needed (haiku)
 │   ├── end.md            # Update context, commit (haiku)
-│   ├── spec.md           # Create implementation spec (inherit)
-│   ├── document.md       # Document a topic (inherit)
-│   ├── review.md         # Strategic work review (inherit)
+│   ├── spec.md           # Create implementation spec (uses subagents)
+│   ├── document.md       # Document a topic (uses subagents)
+│   ├── review.md         # Strategic work review (uses subagents)
 │   ├── archive.md        # Archive completed work (haiku)
 │   ├── configure.md      # Change project settings (haiku)
 │   └── git-strategy.md   # Change git handling (haiku)
@@ -29,7 +33,7 @@ The plugin provides commands that manage a `.sessions/` directory in user projec
 ```
 .sessions/
 ├── index.md      # Living context document (read at start, updated at end)
-├── config.json   # Project settings (models, locations, git strategy)
+├── config.json   # Project settings (locations, git strategy, Linear)
 ├── archive/      # Completed work (YYYY-MM-DD-<issue>-<topic>.md)
 ├── specs/        # Implementation specs (<issue>-<topic>.md) - location configurable
 ├── docs/         # Reference documentation (<topic>.md) - location configurable
@@ -43,11 +47,6 @@ All settings are stored in `.sessions/config.json` per-project:
 
 ```json
 {
-  "models": {
-    "spec": "inherit",
-    "document": "inherit",
-    "review": "opus"
-  },
   "specsLocation": ".sessions/specs/",
   "docsLocation": ".sessions/docs/",
   "gitStrategy": "ignore-all",
@@ -55,13 +54,36 @@ All settings are stored in `.sessions/config.json` per-project:
 }
 ```
 
-- **models**: Which model to use for thinking commands (inherit, haiku, sonnet, opus)
 - **specsLocation**: Where specs are saved (.sessions/specs/ or specs/)
 - **docsLocation**: Where docs are saved (.sessions/docs/ or docs/)
 - **gitStrategy**: How .sessions/ is handled in git (ignore-all, hybrid, commit-all)
 - **linearEnabled**: Enable Linear MCP integration (true/false)
 
-Commands read config.json at runtime and respect the model preference.
+## Subagent Architecture
+
+Heavy commands (`spec`, `document`, `review`) use subagents for context efficiency:
+
+```
+Main Context (user interaction)
+    │
+    ├─→ codebase-explorer (haiku, isolated) → returns summary
+    │
+    ├─→ Interview user (main context, clean)
+    │
+    └─→ spec-writer (inherit, isolated) → writes file
+```
+
+**Benefits:**
+- Research doesn't fill main context
+- Faster (haiku for exploration)
+- Main context stays clean for user interaction
+
+**Subagents:**
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `codebase-explorer` | haiku | Fast pattern/architecture research |
+| `spec-writer` | inherit | Synthesize findings + interview → spec |
+| `work-reviewer` | sonnet | Strategic review, categorized findings |
 
 ## Development Notes
 
@@ -69,9 +91,10 @@ Commands read config.json at runtime and respect the model preference.
 - All commands start with `git rev-parse --show-toplevel` to find project root
 - Skills have trigger patterns in SKILL.md that Claude matches automatically
 - Mechanical commands use `model: haiku` for speed
-- Thinking commands read config.json for model preference
+- Heavy commands use subagents for context efficiency
+- Subagent models are fixed in agent definitions (not configurable)
 - Skills cannot specify models (always inherit)
-- Version: 0.6.0 (continuing from create-sessions-dir 0.3.x)
+- Version: 0.7.0 (continuing from create-sessions-dir 0.3.x)
 
 ## Testing Changes
 

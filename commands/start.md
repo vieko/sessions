@@ -18,36 +18,24 @@ Check if `<git-root>/.sessions/index.md` exists.
 
 1. Tell the user: "No sessions directory found. Let me set that up for you."
 
-2. Use AskUserQuestion to ask setup questions. Since AskUserQuestion has a 4-question limit, split into two rounds:
+2. Use AskUserQuestion to ask setup questions (4 questions, one round):
 
-   ### Round 1 (Models + Specs location):
-
-   1. "What model for `/sessions:spec`?" (Header: "Spec")
-      - inherit (Recommended) - Use conversation model
-      - opus - Deep architectural reasoning
-      - sonnet - Balanced speed/quality
-      - haiku - Fast, lightweight
-
-   2. "What model for `/sessions:document`?" (Header: "Document")
-      - Same options as above
-
-   3. "What model for `/sessions:review`?" (Header: "Review")
-      - Same options as above
-
-   4. "Where should specs be saved?" (Header: "Specs location")
+   1. "Where should specs be saved?" (Header: "Specs")
       - .sessions/specs/ (Recommended) - Keep with session context
       - specs/ - Project root level
 
-   ### Round 2 (Docs location + Git):
-
-   5. "Where should docs be saved?" (Header: "Docs location")
+   2. "Where should docs be saved?" (Header: "Docs")
       - .sessions/docs/ (Recommended) - Keep with session context
       - docs/ - Project root level
 
-   6. "How should `.sessions/` be handled in git?" (Header: "Git")
+   3. "How should `.sessions/` be handled in git?" (Header: "Git")
       - ignore-all (Recommended) - Keep sessions private/local
       - hybrid - Commit docs/specs, keep notes private
       - commit-all - Share everything with team
+
+   4. "Enable Linear MCP integration?" (Header: "Linear")
+      - No (Recommended) - Skip Linear integration
+      - Yes - Fetch/create Linear issues (requires Linear MCP)
 
 3. Create the directory structure based on user choices:
 
@@ -72,14 +60,10 @@ Check if `<git-root>/.sessions/index.md` exists.
 5. Create `config.json` with user's answers:
    ```json
    {
-     "models": {
-       "spec": "<user-answer>",
-       "document": "<user-answer>",
-       "review": "<user-answer>"
-     },
      "specsLocation": "<user-answer>",
      "docsLocation": "<user-answer>",
-     "gitStrategy": "<user-answer>"
+     "gitStrategy": "<user-answer>",
+     "linearEnabled": <true-or-false>
    }
    ```
 
