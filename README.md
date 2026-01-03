@@ -43,17 +43,12 @@ On first `/sessions:start`, you'll be asked to configure:
 
 | Setting | Options | Default |
 |---------|---------|---------|
-| Model for `/spec` | inherit, haiku, sonnet, opus | inherit |
-| Model for `/document` | inherit, haiku, sonnet, opus | inherit |
-| Model for `/review` | inherit, haiku, sonnet, opus | inherit |
 | Specs location | .sessions/specs/, specs/ | .sessions/specs/ |
 | Docs location | .sessions/docs/, docs/ | .sessions/docs/ |
 | Git strategy | ignore-all, hybrid, commit-all | ignore-all |
 | Linear integration | Yes, No | No |
 
-Settings are stored in `.sessions/config.json` per-project.
-
-**inherit** uses your current conversation model. Change anytime with `/sessions:configure`.
+Settings are stored in `.sessions/config.json` per-project. Change anytime with `/sessions:configure`.
 
 ## Context-Efficient Operations
 

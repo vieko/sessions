@@ -28,8 +28,13 @@ All notable changes to this project will be documented in this file.
   - Analysis runs in isolated context (sonnet for depth)
   - Categorized findings return to main context for action decisions
 
+- **Simplified setup** - Removed model configuration questions
+  - Subagent models are fixed in agent definitions (not user-configurable)
+  - Setup now asks 4 questions in one round (specs, docs, git, Linear)
+  - Config.json no longer includes `models` section
+
 - Removed `Glob` and `Grep` from spec/document/review allowed-tools (subagents handle this)
-- Subagent model takes precedence over config.json model settings
+- Restricted `work-reviewer` Bash access to git commands only (read-only analysis)
 
 ### Why This Change
 
@@ -54,7 +59,7 @@ Context burns out quickly during spec/document/review operations, requiring shor
 
 ### Changed
 
-- `/sessions:configure` now asks about Linear integration (7 questions in 2 rounds)
+- `/sessions:configure` now asks about Linear integration
 - Added `mcp__linear__*` to allowed-tools in start, review, and archive commands
 - Documented AskUserQuestion 4-question limit in configure and start commands
 
