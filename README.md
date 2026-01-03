@@ -4,7 +4,7 @@
   <img src="bonfire.png" alt="Bonfire" width="200">
 </p>
 
-Save your progress at the bonfire. Your AI coding partner forgets everything between conversations - Bonfire fixes that.
+Your AI coding partner forgets everything between conversations. Bonfire fixes that.
 
 ```bash
 claude plugin marketplace add vieko/bonfire
@@ -24,7 +24,7 @@ You end up re-explaining context, re-making decisions, and watching your AI part
 
 ## The Solution
 
-Bonfire maintains a living context document that gets read at session start and updated at session end. Your AI partner picks up exactly where you left off.
+Bonfire maintains a living context document that gets read at session start and updated at session end. Your AI partner picks up exactly where you left off. It's like a saved game for your work.
 
 `/bonfire:start` → *reads context* → WORK → `/bonfire:end` → *saves context*
 
