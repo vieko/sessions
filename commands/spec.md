@@ -99,24 +99,22 @@ Example questions:
 - "I found [potential conflict]. How should we handle it?"
 - "[Approach A] is simpler but [tradeoff]. [Approach B] is more complex but [benefit]. Preference?"
 
-### Round 3: Scope & Boundaries (if needed)
+### Round 3: Testing & Scope (Required)
 
-If scope is still unclear:
-- What's explicitly out of scope?
-- MVP vs full implementation?
-- Dependencies on other work?
+Always ask about testing and scope, even if user seems ready to proceed:
 
-### Continue Until Complete
+**Testing** (must ask one):
+- "What's the testing approach? Unit tests, integration tests, manual testing, or skip tests for MVP?"
+- "Should this include tests? If so, what should be covered?"
 
-Keep asking rounds of questions until you have clarity on:
-- [ ] Core approach and architecture
-- [ ] Key technical decisions
-- [ ] Error handling strategy
-- [ ] Edge cases covered
-- [ ] Testing approach
-- [ ] Scope boundaries
+**Scope** (must ask one):
+- "What's explicitly out of scope for this implementation?"
+- "MVP vs full implementation - any features to defer?"
 
-Tell the user "I have enough to write the spec" when ready.
+Example combined question:
+- "Two quick questions: (1) Testing approach for this feature? (2) Anything explicitly out of scope?"
+
+**Do not skip Round 3.** These questions take 30 seconds and prevent spec gaps.
 
 ## Step 6: Write the Spec (Subagent)
 
