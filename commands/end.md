@@ -1,6 +1,6 @@
 ---
 description: End session - update context and commit changes
-allowed-tools: Bash(git:*), Bash(rm:*), Bash(mv:*), Bash(mkdir:*), Read, Write, Glob, AskUserQuestion
+allowed-tools: Bash(git:*), Bash(rm:*), Bash(mv:*), Bash(mkdir:*), Bash(*/duration.sh:*), Read, Write, Glob, AskUserQuestion
 model: haiku
 ---
 
@@ -14,12 +14,13 @@ Run `git rev-parse --show-toplevel` to locate the repository root.
 
 Read `<git-root>/.bonfire/config.json`. If `trackSessionDuration` is `true` and `sessionStartTime` exists:
 
-1. Calculate duration from `sessionStartTime` to now
-2. Format as human-readable:
-   - If < 1 hour: show only minutes (e.g., "45m")
-   - If >= 1 hour: show hours and minutes (e.g., "1h 23m")
-3. Store this duration to include in the session entry header
-4. Clear `sessionStartTime` from config.json (set to `null`)
+1. Calculate duration using the helper script:
+   ```bash
+   <plugin-dir>/scripts/duration.sh "<sessionStartTime>"
+   ```
+   Output format: "1h 23m" or "45m"
+2. Store this duration to include in the session entry header
+3. Clear `sessionStartTime` from config.json (set to `null`)
 
 ## Step 2: Review Session Work
 
