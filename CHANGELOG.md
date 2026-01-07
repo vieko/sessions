@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.3] - 2026-01-07
+
+### Removed
+
+- **Script tracking feature** - Removed unused `.bonfire/scripts/` management
+  - Zero usage across multiple projects (bonfire, GTM)
+  - Users naturally place scripts in project directories
+  - Eliminates complexity without losing functionality
+
 ## [0.9.2] - 2026-01-05
 
 ### Changed
