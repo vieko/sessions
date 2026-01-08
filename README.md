@@ -143,7 +143,7 @@ Optional: `gh` CLI for GitHub integration, [linear-cli](https://github.com/schpe
 
 ## Recommended: Auto-Formatting Hook
 
-Keep Claude's code formatted with a PostToolUse hook that runs your project's formatter after every write. See [PostToolUse Formatter Hook](docs/post-tool-use-formatter-hook.md) for setup instructions.
+Keep Claude Code's generated code formatted with a PostToolUse hook that runs your project's formatter after every write. See [PostToolUse Formatter Hook](docs/post-tool-use-formatter-hook.md) for setup instructions.
 
 ## Learn More
 
