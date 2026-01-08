@@ -167,15 +167,11 @@ After the doc-writer subagent returns, verify the doc is complete.
 - Write the doc yourself using the Write tool
 - Run verification on the written file
 
-## Formatting Tip
-
-If the generated doc has inconsistent formatting, configure a PostToolUse hook to auto-format files after writes. See [PostToolUse Formatter Hook](../docs/post-tool-use-formatter-hook.md).
-
-## Step 6: Link to Session Context
+## Step 5: Link to Session Context
 
 Add a reference to the doc in `<git-root>/.bonfire/index.md` under Key Resources or Notes.
 
-## Step 7: Confirm
+## Step 6: Confirm
 
 Summarize what was documented and ask if the user wants:
 - More detail on any section

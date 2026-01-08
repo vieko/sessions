@@ -259,10 +259,6 @@ Read the generated spec and present a summary. Ask if user wants to:
 - "The `auth` middleware validates JWT but doesn't check permissions. Should this feature add permission checks or assume auth is enough?"
 - "There's a `BaseController` with shared logic. Extend it or keep this feature standalone?"
 
-## Formatting Tip
-
-If the generated spec has inconsistent formatting, configure a PostToolUse hook to auto-format files after writes. See [PostToolUse Formatter Hook](../docs/post-tool-use-formatter-hook.md).
-
 ## Spec Lifecycle
 
 Specs are **temporary artifacts** - they exist to guide implementation:

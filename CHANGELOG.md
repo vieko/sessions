@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.6] - 2026-01-08
+
+### Changed
+
+- **Standardized agent colors** - All subagents now use orange for consistent bonfire branding
+- **Renamed `docs/` to `experiments/`** - Clarifies these are research artifacts, not user documentation
+
+### Removed
+
+- **PostToolUse formatter hook recommendation** - Out of scope for Bonfire's core mission (session context management). Users can configure formatters via Claude Code's native hooks if desired.
+
 ## [0.9.4] - 2026-01-08
 
 ### Added

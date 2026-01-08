@@ -141,10 +141,6 @@ And suggests archiving when you merge PRs or mention shipping.
 
 Optional: `gh` CLI for GitHub integration, [linear-cli](https://github.com/schpet/linear-cli) for Linear integration.
 
-## Recommended: Auto-Formatting Hook
-
-Keep Claude Code's generated code formatted with a PostToolUse hook that runs your project's formatter after every write. See [PostToolUse Formatter Hook](docs/post-tool-use-formatter-hook.md) for setup instructions.
-
 ## Learn More
 
 **Blog post**: [Save Your Progress](https://vieko.dev/bonfire)
