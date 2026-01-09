@@ -4,8 +4,6 @@
   <img src="bonfire.gif" alt="Bonfire" width="256">
 </p>
 
-Claude Code forgets everything between conversations. Bonfire remembers.
-
 *A Claude Code plugin that maintains a living context document—read at session start, updated at session end. Pick up exactly where you left off.*
 
 ```bash
