@@ -13,18 +13,13 @@ claude plugin install bonfire@vieko
 
 ## The Problem
 
-AI agents are stateless. Every conversation starts from zero. The agent doesn't remember:
-
-- What you decided yesterday
-- Why you chose that architecture
-- What blockers you hit
-- Where you left off
+AI agents are stateless. Every conversation starts from scratch. The agent doesn't remember what you decided yesterday, why you chose that architecture, what blockers you hit, or where you left off.
 
 You end up re-explaining context, re-making decisions, and watching your AI partner repeat the same mistakes.
 
 ## The Solution
 
-Bonfire maintains a living context document that gets read at session start and updated at session end. Claude Code picks up exactly where you left off. It's like a saved game for your work.
+Bonfire is a Claude Code plugin that maintains a living context document—read at session start, updated at session end. Claude Code picks up exactly where you left off. It's like a saved game for your work.
 
 `/bonfire:start` → *reads context* → WORK → `/bonfire:end` → *saves context*
 
