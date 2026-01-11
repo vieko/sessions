@@ -1,0 +1,8 @@
+# Local OpenCode install (source is opencode/)
+.opencode/
+opencode.json
+
+# Package build artifacts
+packages/*/dist/
+packages/*/files/
+packages/*/node_modules/

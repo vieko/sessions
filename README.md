@@ -4,11 +4,31 @@
   <img src="bonfire.gif" alt="Bonfire" width="256">
 </p>
 
-*A Claude Code plugin that maintains a living context document—read at session start, updated at session end. Pick up exactly where you left off.*
+*A plugin that maintains a living context document—read at session start, updated at session end. Pick up exactly where you left off.*
+
+**Works with both [Claude Code](https://claude.ai/code) and [OpenCode](https://opencode.ai).**
+
+## Installation
+
+### Claude Code
 
 ```bash
 claude plugin marketplace add vieko/bonfire
 claude plugin install bonfire@vieko
+```
+
+### OpenCode
+
+**Project install:**
+
+```bash
+bunx opencode-bonfire install
+```
+
+**Global install** (available in all projects):
+
+```bash
+bunx opencode-bonfire install --global
 ```
 
 ## The Problem
@@ -19,9 +39,17 @@ You end up re-explaining context, re-making decisions, and watching your AI part
 
 ## The Solution
 
-Bonfire is a Claude Code plugin that maintains a living context document—read at session start, updated at session end. Claude Code picks up exactly where you left off. It's like a saved game for your work.
+Bonfire maintains a living context document—read at session start, updated at session end. Your AI picks up exactly where you left off. It's like a saved game for your work.
 
-`/bonfire:start` → *reads context* → WORK → `/bonfire:end` → *saves context*
+**Claude Code:**
+```
+/bonfire:start → reads context → WORK → /bonfire:end → saves context
+```
+
+**OpenCode:**
+```
+/bonfire-start → reads context → WORK → /bonfire-end → saves context
+```
 
 That's it. No complex setup. No external services. Just Markdown files in your repo.
 
@@ -32,30 +60,19 @@ That's it. No complex setup. No external services. Just Markdown files in your r
 | Issue/task trackers | "What's the work?" |
 | Bonfire | "Where are we and what did we decide?" |
 
-Bonfire complements your issue tracker. Use GitHub Issues, Linear, Beads, or Beans for tasks. Use Bonfire for workflow context.
-
-## Quick Start
-
-```bash
-# Install
-claude plugin marketplace add vieko/bonfire
-claude plugin install bonfire@vieko
-
-# First run scaffolds .bonfire/ and asks setup questions
-/bonfire:start
-```
+Bonfire complements your issue tracker. Use GitHub Issues, Linear, or any other tool for tasks. Use Bonfire for workflow context.
 
 ## Commands
 
-| Command | What it does |
-|---------|--------------|
-| `/bonfire:start` | Read context, scaffold on first run |
-| `/bonfire:end` | Update context, commit changes |
-| `/bonfire:spec <topic>` | Create implementation spec (researches codebase, interviews you) |
-| `/bonfire:document <topic>` | Document a codebase topic |
-| `/bonfire:review` | Find blindspots, gaps, and quick wins |
-| `/bonfire:archive` | Archive completed work |
-| `/bonfire:configure` | Change project settings |
+| Claude Code | OpenCode | What it does |
+|-------------|----------|--------------|
+| `/bonfire:start` | `/bonfire-start` | Read context, scaffold on first run |
+| `/bonfire:end` | `/bonfire-end` | Update context, commit changes |
+| `/bonfire:spec <topic>` | `/bonfire-spec <topic>` | Create implementation spec |
+| `/bonfire:document <topic>` | `/bonfire-document <topic>` | Document a codebase topic |
+| `/bonfire:review` | `/bonfire-review` | Find blindspots, gaps, quick wins |
+| `/bonfire:archive` | `/bonfire-archive` | Archive completed work |
+| `/bonfire:configure` | `/bonfire-configure` | Change project settings |
 
 ## What Gets Created
 
@@ -78,7 +95,7 @@ The `index.md` is where the magic happens. It tracks:
 
 ## Context-Efficient Operations
 
-Heavy commands (`/spec`, `/document`, `/review`) use subagents to avoid burning your main conversation context:
+Heavy commands (`spec`, `document`, `review`) use subagents to avoid burning your main conversation context:
 
 - Research runs in isolated context (fast, cheap)
 - Only structured summaries return to main conversation
@@ -88,7 +105,7 @@ This happens automatically.
 
 ## Configuration
 
-First `/bonfire:start` asks you to configure:
+First run asks you to configure:
 
 | Setting | Options |
 |---------|---------|
@@ -97,7 +114,7 @@ First `/bonfire:start` asks you to configure:
 | Git strategy | ignore-all, hybrid, commit-all |
 | Linear integration | Yes or No |
 
-Change anytime with `/bonfire:configure`.
+Change anytime with the configure command.
 
 ### Git Strategies
 
@@ -113,25 +130,44 @@ If you use Linear for issue tracking:
 
 1. Install [linear-cli](https://github.com/schpet/linear-cli) (`brew install schpet/tap/linear`)
 2. Authenticate: `linear auth`
-3. Enable via `/bonfire:configure`
+3. Enable via configure command
 4. Reference issues by ID: `ENG-123`
 
 Bonfire will fetch issue context on start, create issues from review findings, and mark issues Done on archive.
 
-**Why linear-cli over Linear MCP?** Lower context cost (~2KB vs ~10KB), on-demand discovery via `--help`, and git integration as a bonus.
+## Platform Differences
 
-## Proactive Skills
+| Feature | Claude Code | OpenCode |
+|---------|-------------|----------|
+| Command prefix | `/bonfire:` | `/bonfire-` |
+| Rules file | `CLAUDE.md` (native) | `CLAUDE.md` (via `instructions`) |
+| Auto context on start | Via skill trigger | Via `instructions` config |
+| Archive suggestion | Via skill trigger | Via plugin hook |
+| Plugin format | Markdown only | Markdown + TypeScript |
 
-Claude Code automatically reads your session context when you ask things like:
-- "What's the project status?"
-- "What were we working on?"
-- "What decisions have we made?"
+Both platforms use **`CLAUDE.md`** for project rules and **`.bonfire/`** for session context. You can switch between Claude Code and OpenCode freely—they share the same files.
 
-And suggests archiving when you merge PRs or mention shipping.
+## Project Structure
+
+```
+bonfire/
+├── claude/           # Claude Code plugin
+│   ├── .claude-plugin/
+│   ├── commands/
+│   ├── agents/
+│   └── skills/
+├── opencode/         # OpenCode plugin  
+│   ├── command/
+│   ├── agent/
+│   ├── skill/
+│   ├── plugin/
+│   └── opencode.json
+└── .bonfire/         # Shared context (dogfooding)
+```
 
 ## Requirements
 
-- [Claude Code CLI](https://claude.ai/code)
+- [Claude Code CLI](https://claude.ai/code) or [OpenCode](https://opencode.ai)
 - Git repository
 
 Optional: `gh` CLI for GitHub integration, [linear-cli](https://github.com/schpet/linear-cli) for Linear integration.
