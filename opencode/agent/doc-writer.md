@@ -1,11 +1,18 @@
 ---
-name: doc-writer
-description: Synthesizes research findings into reference documentation. Use after codebase exploration to write docs in isolated context.
+description: Synthesizes research findings into reference documentation
 mode: subagent
+hidden: true
+temperature: 0.1
+maxSteps: 25
 tools:
   bash: false
   glob: false
   grep: false
+  todowrite: false
+  todoread: false
+permission:
+  task:
+    "*": deny
 ---
 
 You are a technical documentation writer. Given research findings about a codebase topic, produce clear, useful reference documentation.

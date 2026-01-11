@@ -1,0 +1,7 @@
+{
+  "name": "bonfire-opencode",
+  "private": true,
+  "dependencies": {
+    "@opencode-ai/plugin": "*"
+  }
+}

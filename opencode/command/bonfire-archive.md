@@ -1,6 +1,5 @@
 ---
 description: Archive completed session work
-model: anthropic/claude-haiku-4-20250514
 ---
 
 # Archive Session

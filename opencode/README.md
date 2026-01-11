@@ -7,17 +7,13 @@ Session persistence for AI coding - save your progress at the bonfire.
 **Project install:**
 
 ```bash
-git clone https://github.com/vieko/bonfire.git /tmp/bonfire
-cp -r /tmp/bonfire/opencode/* .opencode/
-rm -rf /tmp/bonfire
+bunx opencode-bonfire install
 ```
 
 **Global install** (available in all projects):
 
 ```bash
-git clone https://github.com/vieko/bonfire.git /tmp/bonfire
-cp -r /tmp/bonfire/opencode/* ~/.config/opencode/
-rm -rf /tmp/bonfire
+bunx opencode-bonfire install --global
 ```
 
 ## What's Included
@@ -27,7 +23,8 @@ rm -rf /tmp/bonfire
 | **8 Commands** | `/bonfire-start`, `/bonfire-end`, `/bonfire-spec`, etc. |
 | **4 Agents** | `codebase-explorer`, `spec-writer`, `doc-writer`, `work-reviewer` |
 | **1 Skill** | `bonfire-context` for loading session context |
-| **1 Plugin** | Archive suggestion hooks |
+| **1 Plugin** | Archive suggestions + compaction context preservation |
+| **1 Tool** | `bonfire` for structured session data |
 
 ## Configuration
 
@@ -35,8 +32,27 @@ The `opencode.json` configures automatic context loading:
 
 ```json
 {
-  "instructions": ["CLAUDE.md", ".bonfire/index.md"],
-  "plugin": ["./plugin/bonfire-hooks.ts"]
+  "instructions": ["CLAUDE.md", ".bonfire/index.md"]
+}
+```
+
+Plugins and tools are auto-discovered from `.opencode/plugin/` and `.opencode/tool/` directories.
+
+## Plugin Features
+
+**Archive Suggestions**: After `gh pr merge` or `gh pr close`, suggests running `/bonfire-archive`.
+
+**Compaction Hook**: When OpenCode compacts context, automatically injects `.bonfire/index.md` to preserve session continuity.
+
+**Custom Tool**: `bonfire` returns structured JSON:
+```json
+{
+  "exists": true,
+  "project": "my-project",
+  "status": "In Progress",
+  "branch": "feature/xyz",
+  "priorities": ["Complete API", "Add tests"],
+  "recentSession": { "number": 5, "date": "2026-01-10", "goal": "..." }
 }
 ```
 

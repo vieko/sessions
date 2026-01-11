@@ -1,6 +1,5 @@
 ---
 description: End session - update context and commit changes
-model: anthropic/claude-haiku-4-20250514
 ---
 
 # End Session

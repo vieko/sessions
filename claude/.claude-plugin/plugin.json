@@ -1,7 +1,7 @@
 {
   "name": "bonfire",
-  "version": "0.9.6",
-  "description": "AI forgets everything between sessions. Bonfire remembers.",
+  "version": "0.9.9",
+  "description": "Claude Code forgets everything between sessions. Bonfire remembers.",
   "author": {
     "name": "Vieko Franetovic",
     "email": "hello@vieko.dev",

@@ -1,12 +1,18 @@
 ---
-name: codebase-explorer
-description: Fast codebase exploration for patterns, architecture, and constraints. Use for research phases in spec and document commands.
+description: Fast codebase exploration for patterns, architecture, and constraints
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+hidden: true
+model: anthropic/claude-haiku-4-5
+maxSteps: 15
 tools:
   write: false
   edit: false
   bash: false
+  todowrite: false
+  todoread: false
+permission:
+  task:
+    "*": deny
 ---
 
 You are a codebase exploration specialist. Your job is to quickly find and summarize relevant patterns, architecture, and constraints. Return structured findings, not raw file contents.

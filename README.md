@@ -22,17 +22,13 @@ claude plugin install bonfire@vieko
 **Project install:**
 
 ```bash
-git clone https://github.com/vieko/bonfire.git /tmp/bonfire
-cp -r /tmp/bonfire/opencode/* .opencode/
-rm -rf /tmp/bonfire
+bunx opencode-bonfire install
 ```
 
 **Global install** (available in all projects):
 
 ```bash
-git clone https://github.com/vieko/bonfire.git /tmp/bonfire
-cp -r /tmp/bonfire/opencode/* ~/.config/opencode/
-rm -rf /tmp/bonfire
+bunx opencode-bonfire install --global
 ```
 
 ## The Problem

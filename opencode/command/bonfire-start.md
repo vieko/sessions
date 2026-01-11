@@ -1,6 +1,5 @@
 ---
 description: Start a new session - reads context and scaffolds .bonfire/ if needed
-model: anthropic/claude-haiku-4-20250514
 ---
 
 # Start Session

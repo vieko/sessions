@@ -1,6 +1,5 @@
 ---
 description: Change how .bonfire/ is handled in git
-model: anthropic/claude-haiku-4-20250514
 ---
 
 # Change Git Strategy

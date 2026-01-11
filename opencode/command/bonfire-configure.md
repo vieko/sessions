@@ -1,6 +1,5 @@
 ---
 description: Change project settings (locations, git strategy, Linear)
-model: anthropic/claude-haiku-4-20250514
 ---
 
 # Configure Bonfire

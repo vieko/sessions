@@ -75,10 +75,12 @@ The `.bonfire/` data format is **platform-agnostic** - users can switch between 
 |---------|-------------|----------|
 | Command prefix | `/bonfire:` | `/bonfire-` |
 | Rules file | `CLAUDE.md` (native) | `CLAUDE.md` (via `instructions`) |
-| Agent config | Frontmatter only | Frontmatter + `mode:`, `tools:` |
+| Agent config | Frontmatter only | Frontmatter + `mode:`, `hidden:`, `tools:`, `permission:` |
 | Model spec | `haiku`/`sonnet` | Full model ID |
+| Agent options | N/A | `temperature`, `maxSteps` |
 | Skills | Auto-trigger on patterns | On-demand via skill tool |
-| Plugin hooks | N/A | TypeScript event hooks |
+| Plugin hooks | N/A | TypeScript event hooks (`tool.execute.after`, `experimental.session.compacting`) |
+| Custom tools | N/A | TypeScript tool definitions |
 | Tool name | `AskUserQuestion` | `question` |
 
 **Note**: Both platforms use `CLAUDE.md` for project rules. OpenCode loads it via the `instructions` config in `opencode.json`. This means one rules file works for both platforms.
@@ -129,8 +131,11 @@ Main Context (user interaction)
 - Commands use `$ARGUMENTS` and positional `$1`, `$2`
 - Skills are on-demand (loaded via skill tool)
 - Model specified as full ID: `anthropic/claude-haiku-4-20250514`
-- Plugin hooks handle archive suggestions (replaces skill trigger)
-- Agent tools restricted via `tools:` config
+- Agents use `hidden: true` to hide from `@` menu
+- Agent tuning via `temperature`, `maxSteps`
+- Agent isolation via `permission: { task: { "*": deny } }`
+- Plugin hooks: `tool.execute.after` (archive suggestions), `experimental.session.compacting` (context preservation)
+- Custom tool: `bonfire_status` returns structured JSON context
 
 ## Testing Changes
 

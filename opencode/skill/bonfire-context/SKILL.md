@@ -1,6 +1,11 @@
 ---
 name: bonfire-context
-description: Load .bonfire/index.md context to understand ongoing work, previous decisions, blockers, and session history
+description: Load .bonfire/index.md context to understand ongoing work, previous decisions, blockers, and session history. Use when user references past work or asks about project status.
+license: MIT
+compatibility: opencode
+metadata:
+  category: session-management
+  author: vieko
 ---
 
 # Bonfire Context
