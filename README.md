@@ -101,6 +101,15 @@ Heavy commands (`spec`, `document`, `review`) use subagents to avoid burning you
 
 This happens automatically.
 
+## Smart Archive Reminders
+
+When you merge a PR, Bonfire reminds you to archive completed work:
+
+- **Claude Code**: Detects phrases like "merge it", "shipped", "done with X"
+- **OpenCode**: Detects `gh pr merge` commands + same phrases as backup
+
+Both platforms use dual detection for reliability - if one method fails, the other catches it.
+
 ## Configuration
 
 First run asks you to configure:

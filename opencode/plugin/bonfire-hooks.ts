@@ -2,8 +2,11 @@
  * Bonfire Plugin for OpenCode
  *
  * Provides event hooks for:
- * - Suggesting archive after PR merge
+ * - Suggesting archive after PR merge (backup to skill-based detection)
  * - Preserving session context during compaction
+ * 
+ * Note: Archive suggestion also handled by archive-bonfire-awareness skill
+ * for better reliability across different OpenCode versions.
  */
 
 import type { Plugin } from "@opencode-ai/plugin"
@@ -30,6 +33,9 @@ export const BonfirePlugin: Plugin = async ({ directory }) => {
       const succeeded = !output.error && output.result
 
       if (isPrMerge && succeeded && existsSync(indexPath)) {
+        // Log for debugging - remove this once hook display is confirmed working
+        console.log("[Bonfire] PR merge detected, suggesting archive")
+        
         return {
           message: `PR merged! Run \`/bonfire-archive\` to archive this session.`,
         }

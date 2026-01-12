@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-01-12
+
+### Added
+
+- **Skill-based archive detection for OpenCode** - Added `archive-bonfire-awareness` skill as reliable fallback for PR merge detection
+- **Debug logging for hooks** - Temporary console.log to help diagnose hook display issues
+- **Dual detection documentation** - Clarified that both platforms use belt-and-suspenders approach
+
+### Changed
+
+- **Hook documentation** - Noted that archive suggestion is handled by both hook and skill for reliability
+
+### Fixed
+
+- **Archive suggestion reliability** - OpenCode now matches Claude Code's pattern-based detection when hooks fail
+
 ## [1.0.0] - 2026-01-11
 
 ### Added

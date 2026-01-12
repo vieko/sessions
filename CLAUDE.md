@@ -79,6 +79,7 @@ The `.bonfire/` data format is **platform-agnostic** - users can switch between 
 | Model spec | `haiku`/`sonnet` | Full model ID |
 | Agent options | N/A | `temperature`, `maxSteps` |
 | Skills | Auto-trigger on patterns | On-demand via skill tool |
+| Archive detection | Skill-based (reliable) | Skill + Hook (belt & suspenders) |
 | Plugin hooks | N/A | TypeScript event hooks (`tool.execute.after`, `experimental.session.compacting`) |
 | Custom tools | N/A | TypeScript tool definitions |
 | Tool name | `AskUserQuestion` | `question` |

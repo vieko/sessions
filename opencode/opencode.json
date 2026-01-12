@@ -1,4 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["CLAUDE.md", ".bonfire/index.md"]
+  "instructions": ["CLAUDE.md", ".bonfire/index.md"],
+  "skill": [
+    {
+      "directory": "skill/bonfire-context"
+    },
+    {
+      "directory": "skill/archive-bonfire-awareness"
+    }
+  ]
 }
