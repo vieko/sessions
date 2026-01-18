@@ -6,10 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- **PreCompact hook setup** - Claude Code users can opt-in to context preservation during compaction
+- **PreCompact hook setup (experimental)** - Claude Code users can opt-in to context preservation during compaction
   - New option in `/bonfire:configure`: "Set up context preservation hook?"
-  - Creates `.claude/settings.json` with PreCompact hook that injects index.md before compaction
-  - OpenCode already handles this automatically via plugin hooks
+  - Creates `.claude/settings.json` with PreCompact hook that outputs index.md before compaction
+  - Note: Hook fires before compaction but behavior may vary; OpenCode's plugin hooks are more reliable
 
 - **Codemap section** - Track key files across sessions to reduce exploration burn
   - New section in `index.md` template: Entry Points, Core Components, This Session's Key Files
