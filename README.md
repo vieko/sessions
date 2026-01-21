@@ -113,16 +113,32 @@ When you merge a PR, Bonfire reminds you to archive completed work:
 
 Both platforms use dual detection for reliability - if one method fails, the other catches it.
 
+## Size Warning
+
+Session context files grow over time. When `index.md` accumulates too many sessions, it can exceed token limits and cause read errors.
+
+**On `/bonfire:start`**: If the file exceeds ~20K tokens, you'll see a prominent warning:
+
+```
+=== SESSION CONTEXT TOO LARGE ===
+
+Your .bonfire/index.md is ~25K tokens, which may cause read errors.
+
+Run /bonfire:archive to clean up old sessions.
+```
+
+Run `/bonfire:archive` to move completed sessions to `.bonfire/archive/`. All content is preserved, nothing is lost.
+
 ## Configuration
 
 First run asks you to configure:
 
-| Setting | Options |
-|---------|---------|
-| Specs location | `.bonfire/specs/` or `specs/` |
-| Docs location | `.bonfire/docs/` or `docs/` |
-| Git strategy | ignore-all, hybrid, commit-all |
-| Linear integration | Yes or No |
+| Setting | Options | Default |
+|---------|---------|---------|
+| Specs location | `.bonfire/specs/` or `specs/` | `.bonfire/specs/` |
+| Docs location | `.bonfire/docs/` or `docs/` | `.bonfire/docs/` |
+| Git strategy | ignore-all, hybrid, commit-all | ignore-all |
+| Linear integration | Yes or No | No |
 
 Change anytime with the configure command.
 

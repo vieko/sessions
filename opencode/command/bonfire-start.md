@@ -210,6 +210,28 @@ Summarize:
 
 Then ask: "What do you want to work on this session?"
 
+## Step 4.5: Size Warning
+
+After reading `index.md`, estimate its size (rough token estimate: character count / 4).
+
+**If estimated tokens > 20,000**, display a prominent warning:
+
+---
+
+=== SESSION CONTEXT TOO LARGE ===
+
+Your `.bonfire/index.md` is ~[N]K tokens, which may cause read errors.
+
+**Run `/bonfire-archive` to clean up old sessions.**
+
+---
+
+Then use the question tool to confirm how to proceed:
+1. "I'll archive now" - User will run /bonfire-archive
+2. "Continue anyway" - Proceed with potentially truncated context
+
+**If estimated tokens <= 20,000:** Continue to Step 5 without warning.
+
 ## Step 5: Fetch External Context (Optional)
 
 **Only fetch if user provides a new URL or issue ID:**
