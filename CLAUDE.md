@@ -26,11 +26,13 @@ bonfire/
 │   │   ├── document.md
 │   │   ├── review.md
 │   │   ├── archive.md
+│   │   ├── handoff.md
 │   │   ├── configure.md
 │   │   └── git-strategy.md
 │   └── skills/               # Passive triggers
 │       ├── bonfire-context/
-│       └── archive-bonfire/
+│       ├── archive-bonfire/
+│       └── handoff-awareness/
 ├── opencode/                 # OpenCode plugin
 │   ├── agent/                # Subagents
 │   │   ├── codebase-explorer.md
@@ -47,10 +49,13 @@ bonfire/
 │   │   ├── bonfire-document.md
 │   │   ├── bonfire-review.md
 │   │   ├── bonfire-archive.md
+│   │   ├── bonfire-handoff.md
 │   │   ├── bonfire-configure.md
 │   │   └── bonfire-git-strategy.md
 │   ├── skill/                # On-demand skills
-│   │   └── bonfire-context/
+│   │   ├── bonfire-context/
+│   │   ├── archive-bonfire-awareness/
+│   │   └── handoff-awareness/
 │   ├── plugin/               # TypeScript plugin
 │   │   └── bonfire-hooks.ts
 │   └── opencode.json         # Config manifest
@@ -70,6 +75,7 @@ Both plugins manage a `.bonfire/` directory in user projects:
 ├── archive/      # Completed work (YYYY-MM-DD-<issue>-<topic>.md)
 ├── specs/        # Implementation specs (<issue>-<topic>.md)
 ├── docs/         # Reference documentation (<topic>.md)
+├── handoff/      # Session handoff context (transient, not committed)
 └── .gitignore    # Based on chosen strategy
 ```
 
