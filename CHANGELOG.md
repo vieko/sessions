@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-01-21
+
+### Added
+
+- **Session handoff** (`/bonfire:handoff`, `/bonfire-handoff`) - Hand off work to a fresh Claude session
+  - Spawns new session in adjacent tmux pane with minimal context (~1K tokens)
+  - Updates `index.md` with HANDOFF marker before spawning
+  - New session runs `/bonfire:start` to load full history
+  - Non-tmux fallback: generates context file with manual instructions
+
+- **Handoff awareness skill** - Detects context concerns and suggests handoff
+  - Triggers on phrases like "running out of context", "conversation is getting long"
+  - Suggests `/bonfire:handoff` without auto-triggering
+
+- **Context corruption safeguard** - Prevents old sessions from overwriting new session's work
+  - Handoff creates marker file `.bonfire/handoff/handed-off`
+  - `/bonfire:end` checks for marker and warns before updating `index.md`
+  - User can proceed, skip index.md update, or cancel
+
+- **Handoff continuation detection** - New Step 3.5 in `/bonfire:start`
+  - Detects and acknowledges when session continues from handoff
+  - Reads handoff context for quick orientation
+  - Cleans up handoff files after loading
+
+### Changed
+
+- `/bonfire:handoff` now has 10 steps (spawn verification, marker creation)
+- `/bonfire:start` now has Step 3.5 for handoff continuation detection
+- `/bonfire:end` now has Step 2 for handoff marker check
+- Improved shell quoting in tmux spawn command for reliability
+- Better size guidance for handoff context (~150 words, ~750 chars)
+
+## [1.2.1] - 2026-01-21
+
+### Added
+
+- **Size warning on start** - Warns when `.bonfire/index.md` exceeds ~20K tokens
+  - Displays prominent `=== SESSION CONTEXT TOO LARGE ===` message
+  - Prompts user to run `/bonfire:archive` to clean up old sessions
+  - Prevents read errors from oversized context files
+
 ## [1.2.0] - 2026-01-19
 
 ### Added

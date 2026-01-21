@@ -73,6 +73,7 @@ Bonfire complements your issue tracker. Use GitHub Issues, Linear, or any other 
 | `/bonfire:document <topic>` | `/bonfire-document <topic>` | Document a codebase topic |
 | `/bonfire:review` | `/bonfire-review` | Find blindspots, gaps, quick wins |
 | `/bonfire:archive` | `/bonfire-archive` | Archive completed work |
+| `/bonfire:handoff` | `/bonfire-handoff` | Hand off to new session (tmux) |
 | `/bonfire:configure` | `/bonfire-configure` | Change project settings |
 
 ## What Gets Created
@@ -113,16 +114,50 @@ When you merge a PR, Bonfire reminds you to archive completed work:
 
 Both platforms use dual detection for reliability - if one method fails, the other catches it.
 
+## Size Warning
+
+Session context files grow over time. When `index.md` accumulates too many sessions, it can exceed token limits and cause read errors.
+
+**On `/bonfire:start`**: If the file exceeds ~20K tokens, you'll see a prominent warning:
+
+```
+=== SESSION CONTEXT TOO LARGE ===
+
+Your .bonfire/index.md is ~25K tokens, which may cause read errors.
+
+Run /bonfire:archive to clean up old sessions.
+```
+
+Run `/bonfire:archive` to move completed sessions to `.bonfire/archive/`. All content is preserved, nothing is lost.
+
+## Session Handoff
+
+When your session approaches context limits, you can hand off to a fresh Claude instance without losing progress:
+
+```bash
+/bonfire:handoff
+```
+
+This:
+1. Updates `index.md` with current state (what you were working on)
+2. Generates minimal handoff context (~1K tokens)
+3. Spawns a new Claude session in an adjacent tmux pane
+4. New session runs `/bonfire:start` to load full history
+
+**Requires tmux.** The new session opens in a split pane so you can see both sessions during transition.
+
+Bonfire also detects when you mention context concerns ("running out of context", "conversation is getting long") and suggests handoff.
+
 ## Configuration
 
 First run asks you to configure:
 
-| Setting | Options |
-|---------|---------|
-| Specs location | `.bonfire/specs/` or `specs/` |
-| Docs location | `.bonfire/docs/` or `docs/` |
-| Git strategy | ignore-all, hybrid, commit-all |
-| Linear integration | Yes or No |
+| Setting | Options | Default |
+|---------|---------|---------|
+| Specs location | `.bonfire/specs/` or `specs/` | `.bonfire/specs/` |
+| Docs location | `.bonfire/docs/` or `docs/` | `.bonfire/docs/` |
+| Git strategy | ignore-all, hybrid, commit-all | ignore-all |
+| Linear integration | Yes or No | No |
 
 Change anytime with the configure command.
 

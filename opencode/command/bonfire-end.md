@@ -8,14 +8,35 @@ description: End session - update context and commit changes
 
 Run `git rev-parse --show-toplevel` to locate the repository root.
 
-## Step 2: Review Session Work
+## Step 2: Check for Handoff
+
+Check if `<git-root>/.bonfire/handoff/handed-off` exists.
+
+**If it exists**: This session was handed off to a new session. Warn the user:
+
+> "This session was previously handed off. The new session may have already updated `index.md`.
+> Running `/bonfire-end` here could cause conflicts or overwrite the new session's changes."
+
+Ask the user:
+1. "Proceed anyway" - Continue with /bonfire-end (user takes responsibility)
+2. "Skip index.md update" - Only commit changes, don't update context
+3. "Cancel" - Abort /bonfire-end
+
+If user chooses to proceed or skip, delete the marker file after completion:
+```bash
+rm <git-root>/.bonfire/handoff/handed-off
+```
+
+**If marker doesn't exist**: Continue normally.
+
+## Step 3: Review Session Work
 
 Review what was accomplished this session by examining:
 - Recent git commits
 - Files changed
 - Conversation context
 
-## Step 3: Update Session Context
+## Step 4: Update Session Context
 
 Update `<git-root>/.bonfire/index.md`:
 
@@ -29,7 +50,7 @@ Update `<git-root>/.bonfire/index.md`:
 
 3. Update "Current State" to reflect new status
 
-## Step 4: Update Codemap
+## Step 5: Update Codemap
 
 Update the "Codemap" section in `index.md` with files referenced this session:
 
@@ -68,7 +89,7 @@ Example:
 - `.bonfire/specs/codemap-feature.md` - Feature specification
 ```
 
-## Step 5: Commit Changes (if tracked)
+## Step 6: Commit Changes (if tracked)
 
 Read `<git-root>/.bonfire/config.json` to check `gitStrategy`.
 
@@ -91,7 +112,7 @@ Read `<git-root>/.bonfire/config.json` to check `gitStrategy`.
 
 If the commit fails due to hooks, help resolve the issue (but never bypass hooks with `--no-verify`).
 
-## Step 6: Confirm
+## Step 7: Confirm
 
 Summarize:
 - What was documented
