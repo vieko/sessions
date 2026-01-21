@@ -40,7 +40,7 @@ Activate when user mentions:
    > Run `/bonfire-handoff` to:
    > 1. Save current progress to `.bonfire/index.md`
    > 2. Generate minimal handoff context
-   > 3. Spawn a new Claude session in a new tmux window
+   > 3. Spawn a new Claude session in an adjacent tmux pane
    >
    > The new session will have access to your full session history via `/bonfire-start`."
 

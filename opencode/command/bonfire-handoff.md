@@ -14,10 +14,19 @@ Check if running inside tmux:
 [ -n "$TMUX" ] && echo "tmux: yes" || echo "tmux: no"
 ```
 
-**If not in tmux**: Abort with message:
-> "Handoff requires tmux to spawn a new Claude session. Either:
-> 1. Start Claude inside tmux and try again
-> 2. Manually open a new terminal and paste the handoff context from `.bonfire/handoff/context.md`"
+**If not in tmux**: Still generate handoff context, then provide manual instructions:
+
+1. Continue with Steps 2-8 (skip Step 9)
+2. Tell the user:
+
+> "Automatic session spawning requires tmux. I've saved the handoff context.
+>
+> **To continue manually:**
+> 1. Open a new terminal in this directory
+> 2. Run: `opencode --append-system-prompt "$(cat .bonfire/handoff/context.md)"`
+> 3. In the new session, run `/bonfire-start` to load full history
+>
+> The handoff context is saved at `.bonfire/handoff/context.md`"
 
 ## Step 2: Find Git Root
 
@@ -107,9 +116,19 @@ Write `<git-root>/.bonfire/handoff/context.md` with minimal context (~1K tokens 
 **Instructions for new session**: Run `/bonfire-start` to load full session context from `.bonfire/index.md`.
 ```
 
-Keep this file under 1000 tokens. Focus on what's needed to continue immediately, not history.
+**Size guidance**: Keep this file under 1000 tokens (~150 words, ~750 characters). Focus on what's needed to continue immediately, not history. If the content exceeds this, trim the "Key Context" section to essential items only.
 
-## Step 7: Add handoff/ to .gitignore
+## Step 7: Mark Session as Handed Off
+
+Create a marker file to prevent context corruption:
+
+```bash
+echo "$(date -Iseconds)" > <git-root>/.bonfire/handoff/handed-off
+```
+
+This marker tells other commands (like `/bonfire-end`) that this session has been handed off and should not update `index.md` again.
+
+## Step 8: Add handoff/ to .gitignore
 
 Read `<git-root>/.bonfire/.gitignore` and add `handoff/` if not present:
 
@@ -119,19 +138,22 @@ handoff/
 
 Handoff context is transient and should not be committed.
 
-## Step 8: Spawn New Claude Session
+## Step 9: Spawn New Session
 
 Run the tmux command to spawn a new pane (horizontal split):
 
 ```bash
 REPO_ROOT="$(git rev-parse --show-toplevel)"
+CONTEXT="$(cat "$REPO_ROOT/.bonfire/handoff/context.md")"
 tmux split-window -h -c "$REPO_ROOT" \
-  "opencode --append-system-prompt \"\$(cat $REPO_ROOT/.bonfire/handoff/context.md)\" 'Continuing from session handoff. Please run /bonfire-start to load the full session context.'"
+  "opencode --append-system-prompt '$CONTEXT' 'Continuing from session handoff. Please run /bonfire-start to load the full session context.'"
 ```
+
+**Verify spawn succeeded**: Check that the new pane exists. If tmux fails (e.g., terminal too small), warn the user and provide manual instructions from Step 1.
 
 This creates a new pane to the right of the current pane, keeping both sessions visible during handoff.
 
-## Step 9: Confirm Handoff
+## Step 10: Confirm Handoff
 
 Tell the user:
 

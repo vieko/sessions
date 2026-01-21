@@ -201,6 +201,28 @@ Read `.bonfire/index.md` for current project state, recent work, and priorities.
 Read `.bonfire/index.md` for current project state, recent work, and priorities.
 ```
 
+## Step 3.5: Check for Handoff Continuation
+
+Check if `<git-root>/.bonfire/handoff/context.md` exists.
+
+**If it exists**: This session is continuing from a handoff. Acknowledge it:
+
+> "Detected handoff context from previous session. Loading continuation state..."
+
+Read the handoff context file and note:
+- What task was in progress
+- Immediate next steps
+- Key context
+
+Then clean up the handoff files:
+```bash
+rm -rf <git-root>/.bonfire/handoff/
+```
+
+The handoff context provides quick orientation, but the full history is in `index.md` (read in Step 4).
+
+**If handoff context doesn't exist**: Continue normally.
+
 ## Step 4: Read Session Context
 
 Read `<git-root>/.bonfire/index.md` and report when ready.
