@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2026-01-22
+
+### Added
+
+- **PR review command** (`/bonfire:review-pr`, `/bonfire-review-pr`) - Review GitHub PRs with inline comments
+  - Creates isolated git worktree for PR branch (keeps current work untouched)
+  - Spawns new Claude session in tmux pane for review
+  - Runs work-reviewer subagent on PR diff
+  - Batch selection of findings to post as comments
+  - Posts inline comments via `gh api` on specific files/lines
+  - Falls back to general PR comments for files not in diff
+  - Offers worktree cleanup when review complete
+
+### Changed
+
+- Updated documentation with new command in command table
+
 ## [1.3.0] - 2026-01-21
 
 ### Added

@@ -25,6 +25,7 @@ bonfire/
 │   │   ├── poc.md
 │   │   ├── document.md
 │   │   ├── review.md
+│   │   ├── review-pr.md
 │   │   ├── archive.md
 │   │   ├── handoff.md
 │   │   ├── configure.md
@@ -48,6 +49,7 @@ bonfire/
 │   │   ├── bonfire-poc.md
 │   │   ├── bonfire-document.md
 │   │   ├── bonfire-review.md
+│   │   ├── bonfire-review-pr.md
 │   │   ├── bonfire-archive.md
 │   │   ├── bonfire-handoff.md
 │   │   ├── bonfire-configure.md

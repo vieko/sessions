@@ -72,6 +72,7 @@ Bonfire complements your issue tracker. Use GitHub Issues, Linear, or any other 
 | `/bonfire:poc <customer>` | `/bonfire-poc <customer>` | Create proof of concept plan |
 | `/bonfire:document <topic>` | `/bonfire-document <topic>` | Document a codebase topic |
 | `/bonfire:review` | `/bonfire-review` | Find blindspots, gaps, quick wins |
+| `/bonfire:review-pr <number>` | `/bonfire-review-pr <number>` | Review PR in worktree, post comments |
 | `/bonfire:archive` | `/bonfire-archive` | Archive completed work |
 | `/bonfire:handoff` | `/bonfire-handoff` | Hand off to new session (tmux) |
 | `/bonfire:configure` | `/bonfire-configure` | Change project settings |
