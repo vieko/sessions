@@ -15,6 +15,14 @@ claude plugin marketplace add vieko/bonfire
 claude plugin install bonfire@vieko
 ```
 
+### Skills.sh (Universal)
+
+Works with Claude Code, Cursor, Copilot, and other agents:
+
+```bash
+npx skills add vieko/bonfire
+```
+
 ### OpenCode
 
 **Project install:**
