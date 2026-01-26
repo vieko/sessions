@@ -2,7 +2,7 @@
 name: bonfire-end
 description: End session - update context and sync to Tasks
 license: MIT
-allowed-tools: Bash(git:*), Read, Write, Glob, AskUserQuestion
+allowed-tools: Bash(git:*), Bash(gh pr view:*), Bash(gh issue view:*), Read, Write, Glob, Grep, AskUserQuestion
 metadata:
   author: vieko
   version: "3.0.0"
@@ -116,7 +116,104 @@ Read `<git-root>/.bonfire/config.json` to check `gitStrategy`.
 
 If the commit fails due to hooks, help resolve the issue (but never bypass hooks with `--no-verify`).
 
-## Step 6: Confirm
+## Step 6: Context Health Check (Background)
+
+Run garbage detection to identify stale references. Do not block session completion.
+
+Tell user: "Running context health check..."
+
+### 6.1 Broken File References
+
+Scan all `.md` files in `.bonfire/` for internal file paths:
+- Markdown links: `[text](path/to/file.md)` (excluding http/https URLs)
+- Archive links in "Archived Sessions" section
+- Codemap entries
+
+For each path found, verify the file exists relative to git root.
+
+**Detection command**:
+```bash
+# Extract markdown links and check existence
+grep -ohE '\[.*?\]\(([^)]+)\)' .bonfire/*.md .bonfire/**/*.md 2>/dev/null | \
+  grep -oE '\(([^)]+)\)' | tr -d '()' | grep -v '^http' | sort -u
+```
+
+Then check each path with file existence.
+
+### 6.2 Stale External Links
+
+Find GitHub PR/issue references and check their status:
+
+```bash
+# Extract GitHub PR/issue URLs
+grep -ohE 'github\.com/[^/]+/[^/]+/(pull|issues)/[0-9]+' .bonfire/*.md .bonfire/**/*.md 2>/dev/null | sort -u
+```
+
+For each PR/issue found:
+```bash
+gh pr view [NUMBER] --json state,mergedAt,closedAt 2>/dev/null
+gh issue view [NUMBER] --json state,closedAt 2>/dev/null
+```
+
+**Stale criteria**: State is MERGED or CLOSED AND older than 30 days.
+
+If `gh` command fails (not installed/authenticated), skip this check and note: "Skipped external link check (gh CLI unavailable)"
+
+### 6.3 Orphaned Specs
+
+Read `specsLocation` from `.bonfire/config.json` (default: `.bonfire/specs/`).
+
+List all spec files and check if each is referenced in `index.md` or `archive/*.md`.
+
+```bash
+# List specs
+ls -la .bonfire/specs/*.md 2>/dev/null
+
+# Search for references
+grep -l "specs/[filename]" .bonfire/index.md .bonfire/archive/*.md 2>/dev/null
+```
+
+**Orphaned criteria**: Spec file exists, is older than 30 days, and not referenced anywhere.
+
+### 6.4 Archive Integrity
+
+Extract archive links from index.md "Archived Sessions" section and verify each file exists.
+
+### 6.5 Report Results
+
+Display consolidated report:
+
+```
+=== CONTEXT HEALTH CHECK ===
+
+✓ File references: [N] checked, [N] broken
+✓ External links: [N] checked, [N] stale
+✓ Specs: [N] checked, [N] orphaned
+✓ Archive integrity: [N] checked, [N] issues
+
+[If issues found:]
+ISSUES FOUND:
+
+BROKEN REFERENCES:
+- index.md: Link to `archive/missing.md` (file not found)
+
+STALE EXTERNAL LINKS (closed 30+ days):
+- PR #29 (merged 72 days ago)
+
+ORPHANED SPECS:
+- .bonfire/specs/unused.md (created 45 days ago, never referenced)
+
+To fix: Review items above and update index.md manually,
+or run /bonfire-archive to clean up completed work.
+```
+
+If no issues found:
+```
+=== CONTEXT HEALTH CHECK ===
+✓ All clear - no garbage detected
+```
+
+## Step 7: Confirm
 
 Summarize:
 - What was documented
