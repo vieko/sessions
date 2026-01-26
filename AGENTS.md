@@ -19,6 +19,7 @@ Works with Claude Code, OpenCode, Cursor, and other [Agent Skills](https://agent
 ```
 bonfire/
 ├── skills/                          # Agent Skills (universal)
+│   ├── bonfire/SKILL.md             # Meta-skill: entry point & help
 │   ├── bonfire-start/SKILL.md
 │   ├── bonfire-end/SKILL.md
 │   ├── bonfire-spec/SKILL.md
@@ -40,6 +41,7 @@ bonfire/
 
 | Skill | Description |
 |-------|-------------|
+| `/bonfire` | **Entry point** - shows all commands and getting started guide |
 | `/bonfire-start` | Start session, read context, scaffold if needed |
 | `/bonfire-end` | End session, update context |
 | `/bonfire-spec <topic>` | Create implementation spec |
