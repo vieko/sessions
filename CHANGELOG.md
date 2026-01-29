@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- **Linear integration via skill** - Replaced direct bash commands with linear-cli skill
+  - `Bash(linear:*)` → `Skill(linear-cli:*)` in allowed-tools
+  - Better command discovery through skill's reference documentation
+  - Prevents syntax errors and non-existent function calls
+  - Consistent with bonfire's pattern of delegating to specialized skills
+  - Installation requires both:
+    - CLI: `brew install schpet/tap/linear`
+    - Skill: `claude plugin install linear-cli@linear-cli`
+
 ## [4.0.0] - 2026-01-26
 
 ### BREAKING CHANGES

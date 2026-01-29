@@ -18,7 +18,8 @@ Findings are categorized by action:
 - Fall back to direct review if subagent fails
 - Present findings with severity and effort estimates
 - Execute chosen action: fix directly, create spec, or create issues
-- Support GitHub issues always, Linear if enabled
+- Support GitHub issues via `gh` (always), Linear issues via `Skill(linear-cli)` if enabled
+- Use `Skill(linear-cli)` for all Linear operations when `linearEnabled: true` in config
 - Update `index.md` with review outcomes
 
 ## Scope Options

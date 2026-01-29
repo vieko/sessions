@@ -2,7 +2,7 @@
 name: bonfire
 description: Session context persistence for AI coding. Start/end sessions, create specs and docs, review work. Use for session management, "start session", "end session", implementation specs, documentation, code review, or questions about previous work, decisions, blockers, "last time", "what we decided".
 license: MIT
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(mkdir:*), Bash(rm .bonfire/*), Bash(linear:*), Read, Write, Edit, Glob, Grep, Task, AskUserQuestion
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(mkdir:*), Bash(rm .bonfire/*), Read, Write, Edit, Glob, Grep, Task, AskUserQuestion, Skill(linear-cli:*)
 metadata:
   author: vieko
   version: "4.0.0"

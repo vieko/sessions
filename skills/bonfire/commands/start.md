@@ -17,4 +17,5 @@ Session is started, context is loaded, user knows what to work on.
 - Ask user for preferences on first run (specs location, docs location, git strategy, Linear)
 - Warn if context exceeds 20K tokens (suggest archiving)
 - Check for existing tasks and surface them
-- Fetch external context (GitHub/Linear) only if user provides URL or issue ID
+- Fetch external context (GitHub via `gh`, Linear via `Skill(linear-cli)`) only if user provides URL or issue ID
+- Use `Skill(linear-cli)` for all Linear operations when `linearEnabled: true` in config

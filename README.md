@@ -73,7 +73,11 @@ The agent determines the procedure. This follows [ctate's patterns for autonomou
 - Git repository
 - Agent Skills compatible tool
 
-Optional: `gh` CLI for GitHub, [linear-cli](https://github.com/schpet/linear-cli) for Linear.
+**Optional integrations:**
+- GitHub: `gh` CLI ([install](https://cli.github.com/))
+- Linear: Requires both the CLI and skill
+  - CLI: `brew install schpet/tap/linear` ([docs](https://github.com/schpet/linear-cli#install))
+  - Skill: `claude plugin install linear-cli@linear-cli` ([docs](https://github.com/schpet/linear-cli#claude-code-skill))
 
 ## Links
 
