@@ -1,6 +1,6 @@
 # .gitignore Templates
 
-Choose based on `gitStrategy` in config.json:
+Choose based on `git` setting in index.md frontmatter:
 
 ## ignore-all (default)
 
@@ -14,13 +14,13 @@ Ignore everything in `.bonfire/`:
 
 ## hybrid
 
-Commit config only:
+Commit context and config only:
 
 ```
 # .bonfire/.gitignore
 *
 !.gitignore
-!config.json
+!index.md
 ```
 
 ## commit-all

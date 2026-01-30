@@ -19,7 +19,7 @@ Findings are categorized by action:
 - Present findings with severity and effort estimates
 - Execute chosen action: fix directly, create spec, or create issues
 - Support GitHub issues via `gh` (always), Linear issues via `Skill(linear-cli)` if enabled
-- Use `Skill(linear-cli)` for all Linear operations when `linearEnabled: true` in config
+- Use `Skill(linear-cli)` for all Linear operations when `linear: true` in frontmatter
 - Update `index.md` with review outcomes
 
 ## Scope Options

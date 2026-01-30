@@ -1,3 +1,10 @@
+---
+specs: .bonfire/specs/
+docs: .bonfire/docs/
+git: ignore-all
+linear: false
+---
+
 # Session Context: [PROJECT_NAME]
 
 **Date**: [CURRENT_DATE]
@@ -46,23 +53,8 @@
 
 ## Codemap
 
-**Entry Points** (user-curated):
+**Entry Points**:
 - [Add main entry points here]
 
-**Core Components** (user-curated):
+**Core Components**:
 - [Add key directories/modules here]
-
-**This Session's Key Files** (auto-updated):
-- [Files will be added by /bonfire end]
-
----
-
-## Archived Sessions
-
-[Links to archived sessions will appear here]
-
----
-
-## Notes
-
-[Any additional context]
