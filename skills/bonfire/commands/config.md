@@ -6,23 +6,34 @@ Project settings are updated to user's preferences.
 
 ## Acceptance Criteria
 
-- `config.json` reflects user's choices
+- `index.md` frontmatter reflects user's choices
 - `.gitignore` matches chosen git strategy
 - Directory structure matches chosen locations
 
 ## Constraints
 
+- Edit YAML frontmatter in `index.md` (not separate config.json)
 - Support targeted config: `config git`, `config linear` for quick changes
 - Support full config: `config` with no args for all settings
-- Preserve existing settings when doing targeted changes
+- Preserve existing frontmatter values when doing targeted changes
 - Warn if switching git strategy affects tracked files
 - Create `.bonfire/` with defaults if it doesn't exist
 
 ## Settings
 
+Frontmatter format:
+```yaml
+---
+specs: .bonfire/specs/
+docs: .bonfire/docs/
+git: ignore-all
+linear: false
+---
+```
+
 | Setting | Options |
 |---------|---------|
-| specsLocation | `.bonfire/specs/` or `specs/` |
-| docsLocation | `.bonfire/docs/` or `docs/` |
-| gitStrategy | ignore-all, hybrid, commit-all |
-| linearEnabled | true or false |
+| specs | `.bonfire/specs/` or `specs/` |
+| docs | `.bonfire/docs/` or `docs/` |
+| git | ignore-all, hybrid, commit-all |
+| linear | true or false |

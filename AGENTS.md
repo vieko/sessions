@@ -16,7 +16,7 @@ npx skills add vieko/bonfire
 | Command | Outcome |
 |---------|---------|
 | `/bonfire start` | Session started, context loaded, ready to work |
-| `/bonfire end` | Work captured, context healthy, completed work archived |
+| `/bonfire end` | Work captured, context healthy |
 | `/bonfire config` | Settings updated to user preferences |
 | `/bonfire spec <topic>` | Implementation spec that enables building the feature |
 | `/bonfire doc <topic>` | Reference documentation for a system or feature |
@@ -35,11 +35,8 @@ skills/bonfire/
 │   ├── doc.md
 │   └── review.md
 └── templates/            # Default files
-    ├── index.md
-    ├── config.json
-    ├── rfc.md
-    ├── prd.md
-    └── poc.md
+    ├── index.md          # Session context with config frontmatter
+    └── gitignore.md      # Git strategy templates
 ```
 
 ## Design Principles
