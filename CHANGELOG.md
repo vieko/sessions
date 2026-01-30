@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.1] - 2026-01-30
+
+### Fixed
+
+- **Removed date filtering from session reading** - Simplified `~/.claude/projects` integration
+  - Removed "last 7 days max" constraint from `/bonfire start`
+  - Date filtering with jq caused parsing errors on ISO 8601 timestamps with milliseconds
+  - Now just filters by branch and shows last 3-5 sessions (sorted by modified descending)
+  - More robust, same outcome, eliminates parsing complexity
+
+### Why This Change
+
+The date filtering requirement caused agents to implement jq date parsing that failed on milliseconds in ISO 8601 timestamps. The simpler approach (filter by branch, get last N sessions) achieves the same goal without the fragility. Users should never see date parsing errors.
+
 ## [4.3.0] - 2026-01-30
 
 ### Added
