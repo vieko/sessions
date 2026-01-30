@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.0] - 2026-01-30
+
+### Added
+
+- **Passive session reading on start** - Level 1 `~/.claude/projects` integration
+  - `/bonfire start` now automatically displays recent Claude sessions on current branch (last 7 days)
+  - Reads from `~/.claude/projects/<project-dir>/sessions-index.json`
+  - Shows session summaries with timestamps and message counts
+  - Helps agents orient faster by seeing recent work context
+  - Progressive enhancement: Level 1 validates value before considering Level 2 (state tracking #36) or Level 3 (search commands #37)
+
+### Changed
+
+- **Improved start command documentation** - Added detailed implementation patterns
+  - Project directory naming convention: replace `/` with `-` in absolute paths
+  - Complete JSON structure documentation with all field names
+  - Filtering logic and display guidelines
+  - Graceful error handling when sessions index not found
+
+### Why This Change
+
+"Persist State Explicitly" principle - read persistent session data on every start for efficiency. Agents can see what was discussed and decided in recent sessions without asking, reducing orientation time and improving context continuity.
+
 ## [4.2.0] - 2026-01-30
 
 ### Changed
