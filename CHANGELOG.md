@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.2.0] - 2026-01-30
+
+### Changed
+
+- **Config moved to frontmatter** - Consolidated configuration into `index.md`
+  - YAML frontmatter replaces separate `config.json` file
+  - One file to read instead of two
+  - Settings: `specs`, `docs`, `git`, `linear`
+  - Updated all commands to reference frontmatter
+  - Simplified hybrid git strategy
+
+- **Removed archiving** - Rely on git history for completed work
+  - Removed auto-archiving from `/bonfire end`
+  - Use "Recent Sessions" section in `index.md` for key decisions
+  - Existing archives preserved for historical reference
+  - Simplified end command outcome
+
+- **Removed task syncing** - Tasks don't persist across sessions
+  - Deleted task setup/sync from start/end commands
+  - Removed `Task` from allowed-tools
+  - `index.md` is single source of truth for priorities
+  - Eliminates redundant busywork
+
+- **Simplified templates** - Cleaner, more focused session context
+  - Removed "Archived Sessions" section
+  - Removed vague "Notes" section
+  - Streamlined "Codemap" structure
+  - Reduced template overhead
+
+### Removed
+
+- `config.json` - Merged into `index.md` frontmatter
+- `templates/config.json` - No longer needed
+- `.bonfire/scripts/` - Empty directory from deprecated feature
+- Task syncing logic - Never persisted across sessions
+
+### Migration
+
+For existing projects:
+- Add frontmatter to `index.md` with config settings
+- Remove `config.json` file
+- Archives remain in filesystem (not actively maintained)
+
 ## [4.1.0] - 2026-01-29
 
 ### Changed

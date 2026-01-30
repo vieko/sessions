@@ -33,7 +33,7 @@ No complex setup. No external services. Just Markdown files in your repo.
 | Command | Outcome |
 |---------|---------|
 | `/bonfire start` | Session started, context loaded, ready to work |
-| `/bonfire end` | Work captured, context healthy, completed work archived |
+| `/bonfire end` | Work captured, context healthy |
 | `/bonfire config` | Settings updated to your preferences |
 | `/bonfire spec <topic>` | Implementation spec that enables building the feature |
 | `/bonfire doc <topic>` | Reference documentation for a system or feature |
@@ -43,9 +43,7 @@ No complex setup. No external services. Just Markdown files in your repo.
 
 ```
 .bonfire/
-├── index.md      # Living context
-├── config.json   # Settings
-├── archive/      # Completed work
+├── index.md      # Living context (with config in frontmatter)
 ├── specs/        # Implementation specs
 └── docs/         # Documentation
 ```
@@ -61,12 +59,23 @@ The agent determines the procedure. This follows [ctate's patterns for autonomou
 
 ## Configuration
 
+Settings live in `index.md` frontmatter:
+
+```yaml
+---
+specs: .bonfire/specs/
+docs: .bonfire/docs/
+git: ignore-all
+linear: false
+---
+```
+
 | Setting | Options | Default |
 |---------|---------|---------|
-| specsLocation | `.bonfire/specs/` or `specs/` | `.bonfire/specs/` |
-| docsLocation | `.bonfire/docs/` or `docs/` | `.bonfire/docs/` |
-| gitStrategy | ignore-all, hybrid, commit-all | ignore-all |
-| linearEnabled | true or false | false |
+| specs | `.bonfire/specs/` or `specs/` | `.bonfire/specs/` |
+| docs | `.bonfire/docs/` or `docs/` | `.bonfire/docs/` |
+| git | ignore-all, hybrid, commit-all | ignore-all |
+| linear | true or false | false |
 
 ## Requirements
 
