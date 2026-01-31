@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.3] - 2026-01-31
+
+### Fixed
+
+- **Removed date constraints from end command** - Prevents jq date parsing errors
+  - Removed "within last 30 minutes" from session matching in `/bonfire end`
+  - Removed ">7 days", ">30 days" from garbage detection constraints
+  - Changed to qualitative assessment: "orphaned specs, old closed PRs (assess without date filtering)"
+  - Session matching now uses most recent `modified` timestamp on current branch (no time window)
+
+### Why This Change
+
+Same root cause as v4.3.1: Hard date requirements (">7 days", "within 30 minutes") tempt agents to use jq date functions like `fromdateiso8601`, which fail on ISO 8601 timestamps with milliseconds. User reported date parsing errors in GTM session when running `/bonfire end`. Following v4.3.1 pattern: remove hard date constraints, let agents assess staleness without date filtering. Same outcome, more robust, no user-facing errors.
+
+### Technical Details
+
+- Updated `skills/bonfire/commands/end.md` lines 27 and 34
+- Applied to both repo and installed skill (`~/.claude/skills/bonfire/`)
+- Updated spec file (`.bonfire/specs/read-session-summary-on-end.md`) with v4.3.3 notes
+- Most recent session on branch is almost certainly the current session (time window unnecessary)
+- Garbage detection still effective without exact date math
+
 ## [4.3.2] - 2026-01-30
 
 ### Added
