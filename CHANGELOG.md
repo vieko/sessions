@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.2] - 2026-01-30
+
+### Added
+
+- **End command reads session summaries** - Establishes symmetry with start command
+  - `/bonfire end` now reads current session from `~/.claude/projects` (same data source as start)
+  - Matches session by most recent `modified` timestamp within 30 minutes on current branch
+  - Extracts baseline: AI-generated `summary`, `messageCount`, `firstPrompt`
+  - Enriches with persistent state: git commits, PRs (via `gh`), Linear issues (if enabled), file changes
+  - Combines into comprehensive session note with decision context and metadata
+  - Gracefully falls back to manual synthesis if session not found
+
+### Why This Change
+
+Start command (v4.3.0) reads from `~/.claude/projects` to show recent sessions. End command now uses the same data source to capture the current session's summary as a baseline, then enriches it with git/GitHub/Linear context. More efficient than manual reconstruction, and establishes read-only symmetry (both commands read from Claude's persistent session data, neither writes to it). Follows "Persist State Explicitly" principle by enriching only with data from persistent sources.
+
+### Technical Details
+
+- Outcome-based constraints added to `skills/bonfire/commands/end.md`
+- Uses same directory naming and JSON parsing patterns as start.md (v4.3.1 lessons applied)
+- Avoids jq date parsing (uses bash timestamp validation instead)
+- Session note format: title from summary + decision paragraph + bullet points (commits/PRs/files) + metadata line
+- Implementation spec: `.bonfire/specs/read-session-summary-on-end.md`
+
 ## [4.3.1] - 2026-01-30
 
 ### Fixed
