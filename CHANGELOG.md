@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-Internal: a cross-producer conformance harness that enforces bonfire's headline invariant — every producer emits byte-identical fence shapes. No user-visible behavior change; no fence-format bump.
+Internal: a cross-producer conformance harness that enforces bonfire's headline invariant — every producer emits byte-identical fence shapes. Plus fallback-skill hardening under Pi 0.82.0+. No fence-format bump.
 
 ### Added
 
+- **Fallback skill: Pi session env vars.** `end.md` gains a "Host recipes — Pi (0.82.0+)" section: derive the short session id from `$PI_SESSION_ID` (`tr -d '-' | cut -c9-16`, byte-identical to the adapters' `shortenSessionId()`, so skill-written rows de-dupe against adapter-written `[pi:<id>]` rows for the same session) and optionally recover prompts from the session JSONL via `$PI_SESSION_FILE` when compaction has evicted them from context. Guarded — degrades to the generic short-id rule when the vars are unset (Pi < 0.82.0, ephemeral sessions, other hosts). `SKILL.md` `allowed-tools` extended (`printf`, `tr`, `cut`, `jq`, `head`) so the recipes are runnable on hosts that enforce the allow-list.
 - **`conformance.mjs`** (repo root; `tsx conformance.mjs` or `npm test`). Imports the shared fence primitives from *both* code producers and asserts byte-identical output for `replaceFence` / `upsertSessionRow` / `shortenSessionId` / `truncate` across insert / dedupe / cap-5 / header-preservation / missing-fence cases. Pins one canonical grammar for the in-flight attribution header and the sessions row, checks the real Pi renderers emit it, and verifies the prose fallback skill (`end.md`, `templates/index.md`) documents that same grammar — the only way to cover a producer that can't be executed. The in-flight *body* is intentionally divergent across producers and is never asserted equal.
 - **Root `npm test` script** running all four suites (pi unit + smoke, claude, conformance) from one entrypoint.
 - **"Fence-contract sync contract" section in `AGENTS.md`** enumerating the three producers, the shared surface, and the deliberately-divergent in-flight body.

@@ -3,7 +3,7 @@ name: bonfire
 description: Session context persistence for AI coding via a `.bonfire/index.md` file convention. This skill is the cross-agent fallback for hosts without a native bonfire adapter (Pi and Claude Code have first-party adapters that auto-update the file; install those when available).
 license: MIT
 disable-model-invocation: true
-allowed-tools: Bash(git:*), Bash(mkdir:*), Bash(ls:*), Read, Write, Edit, Glob, Grep
+allowed-tools: Bash(git:*), Bash(mkdir:*), Bash(ls:*), Bash(printf:*), Bash(tr:*), Bash(cut:*), Bash(jq:*), Bash(head:*), Read, Write, Edit, Glob, Grep
 metadata:
   author: vieko
   version: "7.3.0"

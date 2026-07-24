@@ -35,6 +35,26 @@ disable-model-invocation: true
 - **Garbage detection**: if the existing in-flight or sessions row matches `/no conversation (content|messages?)/i`, treat it as missing (upstream bug pattern) and overwrite with current session data.
 - **Stale detection**: if the in-flight's `_Updated from <host>:<id>_` line references a different session id than yours, overwrite with current session data. The in-flight should always reflect the most recent session.
 
+## Host recipes
+
+### Pi (0.82.0+)
+
+Pi injects session env vars into agent-run bash commands (`PI_SESSION_ID`, `PI_SESSION_FILE`; not available in user-entered `!` commands). When present, prefer them over deriving identity yourself:
+
+- **Short session id** — byte-identical to the native adapter's `shortenSessionId()`, so a row you write de-dupes against adapter-written `[pi:<id>]` rows for the same session instead of duplicating:
+
+  ```bash
+  printf '%s' "$PI_SESSION_ID" | tr -d '-' | cut -c9-16
+  ```
+
+- **Session transcript** — `$PI_SESSION_FILE` is the absolute path to this session's JSONL (unset for ephemeral sessions; always guard). Use it to recover the first substantive user prompt or file activity when compaction has evicted them from your context:
+
+  ```bash
+  [ -n "$PI_SESSION_FILE" ] && jq -r 'select(.type == "message" and .message.role == "user") | .message.content | if type == "string" then . else (map(select(.type == "text") | .text) | join("\n")) end' "$PI_SESSION_FILE" | head -5
+  ```
+
+When the vars are unset (Pi < 0.82.0, or any other host), fall back to the generic short-id rule under Constraints.
+
 ## When the adapter is a better choice
 
 | Host | Adapter location |

@@ -87,6 +87,8 @@ npx skills add vieko/bonfire
 
 See [skills/bonfire/](skills/bonfire/).
 
+When the skill runs under Pi 0.82.0+, it uses Pi's bash-tool session env vars (`PI_SESSION_ID`, `PI_SESSION_FILE`) to derive the exact same short session id as the native adapter (so rows de-dupe instead of duplicating) and to read the session JSONL directly. On other hosts — or older Pi — it degrades to the generic rules in [end.md](skills/bonfire/commands/end.md).
+
 ## Enable per repo
 
 Adapters honor an opt-in gate — they never auto-create `.bonfire/` in random repos:
