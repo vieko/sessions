@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [7.4.0] - 2026-08-17
 
 Internal: a cross-producer conformance harness that enforces bonfire's headline invariant — every producer emits byte-identical fence shapes. Plus fallback-skill hardening under Pi 0.82.0+. No fence-format bump.
 
