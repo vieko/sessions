@@ -1,7 +1,8 @@
 /**
  * Pi adapter for Bonfire.
  *
- * Hooks Pi's session_compact event and updates two managed fence blocks in
+ * Hooks Pi's session_compact event (plus session_compact_failed and
+ * session_shutdown fallbacks) and updates two managed fence blocks in
  * <git-root>/.bonfire/index.md:
  *
  *   1. <!-- bonfire:auto-inflight:start v1 --> ... <!-- bonfire:auto-inflight:end -->
@@ -88,6 +89,11 @@ const NOTIFY_FOR_WARNING: ReadonlyMap<string, string> = new Map([
 	["!fences", "bonfire: legacy index detected. Run `/skill:bonfire migrate` to upgrade."],
 ]);
 const notifiedSessions = new Set<string>(); // key: `${sessionId}:${kind}`
+// Sessions already notified about a compaction failure. The failure handler
+// may fire more than once per session (threshold retries, later manual
+// /compact attempts); the fallback write is idempotent but the notify
+// should not repeat.
+const compactFailureNotified = new Set<string>();
 
 export default function (pi: ExtensionAPI) {
 	// session_start: resolve a diagnostic startup status from the existing
@@ -160,6 +166,40 @@ export default function (pi: ExtensionAPI) {
 				const msg = err instanceof Error ? err.message : String(err);
 				process.stderr.write(`bonfire nudge: ${msg}\n`);
 			}
+		}
+	});
+
+	// Compaction failed outright (pi >= 0.84.3). Write the fallback rollup
+	// NOW instead of waiting for session_shutdown: shutdown never fires on
+	// hard crashes or kill -9, and a session whose compaction pipeline is
+	// broken is exactly the session most likely to end badly. Aborts are
+	// skipped — a user-cancelled /compact is not a broken pipeline, and the
+	// shutdown fallback still covers that session normally.
+	//
+	// maybeWriteFallback is idempotent (existing row + matching in-flight
+	// session short-circuits), so the later session_shutdown pass becomes a
+	// no-op when this handler already wrote.
+	pi.on("session_compact_failed", async (event, ctx) => {
+		try {
+			if (event.aborted) return;
+			const wrote = await maybeWriteFallback(ctx);
+			const sessionId = ctx.sessionManager.getSessionId();
+			if (wrote && ctx.hasUI) {
+				ctx.ui.setStatus("bonfire", ctx.ui.theme.fg("dim", formatFallbackResult()));
+				if (sessionId) sessionStatusOwner.set(sessionId, "fallback");
+			}
+			// One-shot notify: the footer glyph says bonfire wrote a fallback,
+			// but not WHY. Surface the compaction error so the user knows the
+			// pipeline itself failed (and can retry /compact or file a bug).
+			if (ctx.hasUI && sessionId && !compactFailureNotified.has(sessionId)) {
+				compactFailureNotified.add(sessionId);
+				const detail = event.errorMessage ? `: ${event.errorMessage}` : "";
+				const suffix = wrote ? " — fallback written to .bonfire/index.md" : "";
+				ctx.ui.notify(`bonfire: compaction failed (${event.reason})${detail}${suffix}`, "warning");
+			}
+		} catch (err) {
+			const msg = err instanceof Error ? err.message : String(err);
+			if (process.env.BONFIRE_DEBUG === "1") process.stderr.write(`bonfire compact-failed: ${msg}\n`);
 		}
 	});
 
