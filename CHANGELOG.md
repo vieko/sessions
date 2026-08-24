@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.0] - 2026-08-24
+
+Crash-resilient fallback writes on the Pi adapter: compaction failures now trigger the fallback rollup immediately instead of waiting for session shutdown. Requires no fence-format bump; older Pi versions simply never emit the new event.
+
+### Added
+
+- **`session_compact_failed` hook** (`pi/extension.ts`, Pi 0.84.3+). When manual or automatic compaction fails for a non-abort reason, the adapter writes the fallback rollup immediately instead of waiting for `session_shutdown` — which never fires on hard crashes or `kill -9`, and a session whose compaction pipeline is broken is exactly the session most likely to end badly. Aborted compactions are skipped (a user-cancelled `/compact` is not a broken pipeline). The write is idempotent with the existing shutdown fallback: whichever runs first wins, the other no-ops. A one-shot warning notify per session surfaces the compaction reason and error message so the fallback glyph (`△ +F`) is explained.
+
 ## [7.4.0] - 2026-08-17
 
 Internal: a cross-producer conformance harness that enforces bonfire's headline invariant — every producer emits byte-identical fence shapes. Plus fallback-skill hardening under Pi 0.82.0+. No fence-format bump.
